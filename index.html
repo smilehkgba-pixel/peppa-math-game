@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Peppa Math Master Final Big</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; }
+* { box-sizing:border-box; image-rendering:pixelated; font-family:'Press Start 2P',cursive; user-select:none; }
+body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
+.gameboy { width:100%; max-width:420px; height:98vh; background:var(--gb); border-radius:10px 10px 30px 30px; padding:12px; display:flex; flex-direction:column; box-shadow:inset -5px -5px 10px rgba(0,0,0,0.2); position:relative; }
+.screen-bezel { background:#555; padding:10px 10px 25px 10px; border-radius:5px 5px 20px 5px; flex:1; display:flex; flex-direction:column; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.5); }
+.screen { background:#f8f8f8; flex:1; border:3px solid #000; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+.hidden { display:none !important; }
+
+/* === Start === */
+#s-start { flex:1; background:linear-gradient(var(--blue) 50%, #7cfc00 50%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden;}
+.s-clouds { position:absolute; top:20px; left:0; width:200%; height:40px; background:url('data:image/svg+xml;utf8,<svg width="100" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M10 30 Q25 10 40 30 Q55 10 70 30 Q85 10 100 30" stroke="white" fill="white" opacity="0.6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>') repeat-x; animation: c-move 30s linear infinite; z-index:1; }
+.logo { font-size:13px; text-align:center; color:#fff; text-shadow:3px 3px 0 #000; line-height:1.6; margin-bottom:20px; z-index:2; }
+.peppa-start { width:120px; height:120px; animation:bounce 0.8s infinite steps(2); margin-bottom:20px; z-index:2; }
+.menu-btn { background:#fff; border:3px solid #000; padding:12px; width:85%; text-align:center; margin:8px auto 0 auto; cursor:pointer; font-size:10px; box-shadow:4px 4px 0 rgba(0,0,0,0.3); color:#000; z-index:2; display:block; }
+.menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.3); }
+
+/* === Difficulty === */
+#s-diff { flex:1; background:#2c3e50; padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.diff-title { color:#fff; font-size:12px; margin-bottom:30px; text-align:center; text-shadow: 2px 2px 0 #000; }
+.diff-btn { width:100%; padding:20px 10px; margin-bottom:20px; border:3px solid #000; cursor:pointer; font-size:12px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; }
+.diff-btn:hover { transform:translateX(5px); }
+.diff-btn:active { transform:translate(2px,2px); box-shadow:none; }
+.d-easy { background:#2ecc71; } 
+.d-hard { background:#e74c3c; color:#fff; animation: border-pulse 2s infinite; }
+@keyframes border-pulse { 0% {box-shadow: 4px 4px 0 #000;} 50% {box-shadow: 4px 4px 0 #ffff00;} 100% {box-shadow: 4px 4px 0 #000;} }
+
+/* === Battle === */
+#s-battle { flex:1; display:flex; flex-direction:column; }
+.view { height:55%; background:linear-gradient(var(--blue) 60%, #a8e6cf 60%); position:relative; border-bottom:3px solid #000; overflow:hidden; }
+.bg-sun { position:absolute; top:10px; right:20px; width:40px; height:40px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="%23fff700"/><path d="M10 0v4M10 16v4M0 10h4M16 10h4M3 3l3 3M14 14l3 3M3 17l3-3M14 6l3-3" stroke="%23fff700" stroke-width="2"/></svg>') no-repeat; z-index:0; }
+.bg-hills { position:absolute; bottom:38%; width:200%; height:60px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60"><path d="M0 60 C 30 20, 70 20, 100 60 C 130 30, 170 30, 200 60 Z" fill="%232ecc71"/><rect x="60" y="10" width="20" height="30" fill="%23f1c40f"/><path d="M55 10 L85 10 L70 0 Z" fill="%23e74c3c"/></svg>') repeat-x; animation: c-move 40s linear infinite; z-index:1; opacity:0.9; }
+.bg-ground { position:absolute; bottom:0; width:100%; height:40%; background:#70e070; border-top: 3px solid #5ec25e; z-index:2; }
+
+.hud { position:absolute; background:#fff; border:2px solid #000; padding:3px 5px; border-radius:4px; font-size:7px; z-index:10; }
+.hud-e { top:8px; left:8px; } .hud-p { bottom:25px; right:8px; text-align:right; }
+.hbar { width:60px; height:5px; border:1px solid #000; margin-top:2px; background:#ddd; }
+.hfill { height:100%; background:var(--green); transition:width 0.3s; }
+
+/* === 修正：精靈巨大化 (170px) === */
+.pos-e { position:absolute; top:20px; right:5px; width:170px; height:170px; animation:float 2s infinite ease-in-out; z-index:5; }
+.pos-p { position:absolute; bottom:5px; left:10px; width:110px; height:110px; z-index:5; }
+
+.ctrl { flex:1; background:#2c3e50; border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; }
+.msg { background:#fff; border:2px solid #000; padding:8px; font-size:9px; height:40px; margin-bottom:8px; color:#000; line-height:1.3; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:1; }
+/* 按鈕樣式 */
+.b-btn { background:#fff; border:2px solid #555; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer; color:#000; box-shadow:0 3px 0 #888; transition: background 0.1s; }
+.b-btn:active { transform:translateY(3px); box-shadow:none; }
+.btn-correct { background: #2ecc71 !important; color: #fff !important; border-color: #27ae60 !important; }
+.btn-wrong { background: #e74c3c !important; color: #fff !important; border-color: #c0392b !important; }
+.catch { background:#ff4757; color:white; border-color:#c0392b; animation:pulse 1s infinite; }
+
+/* === Dex & Anim === */
+#s-dex { flex:1; background:var(--red); display:flex; flex-direction:column; padding:10px; }
+.d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; overflow-y:auto; flex:1; padding-bottom:5px; }
+.slot { background:#fff; border:2px solid #000; text-align:center; padding:5px; filter:grayscale(1) brightness(0.7); }
+.slot.got { filter:grayscale(0) brightness(1); border-color:gold; }
+#l-ball { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+#flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
+#c-display { width:180px; height:180px; display:none; z-index:102; filter:drop-shadow(0 0 10px gold); }
+
+.q-text { font-size: 13px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 5px; text-align: center; }
+.anim-correct { color: #2ecc71; animation: bounce-text 0.3s; text-shadow: 2px 2px 0 #000; }
+.anim-wrong { color: #e74c3c; animation: shake-text 0.3s; text-shadow: 2px 2px 0 #000; }
+
+@keyframes bounce-text { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.3);} }
+@keyframes shake-text { 0% {transform: translateX(0);} 25% {transform: translateX(5px);} 75% {transform: translateX(-5px);} 100% {transform: translateX(0);} }
+@keyframes c-move{from{background-position:0 0}to{background-position:-200px 0}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}}
+.dmg{animation:shake 0.4s;filter:brightness(2) sepia(1) hue-rotate(-50deg) saturate(5);} @keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(5px)}75%{transform:translateX(-5px)}}
+.atk{animation:lunge 0.3s forwards;} @keyframes lunge{0%{transform:translateX(0)}50%{transform:translateX(20px) translateY(-5px)}100%{transform:translateX(0)}}
+.b-throw{animation:throw 0.5s forwards;} @keyframes throw{0%{transform:translateY(200px) scale(0.5)}100%{transform:translateY(0) scale(1)}}
+.b-open{animation:open 0.5s forwards;} @keyframes open{50%{transform:scale(1.2)}100%{transform:scale(0);opacity:0}}
+.s-flash{animation:flash 0.5s;} @keyframes flash{0%,100%{opacity:0}50%{opacity:1}}
+.b-shake{animation:shake-ball 0.5s 3;} @keyframes shake-ball{0%,100%{transform:rotate(0)}25%{transform:rotate(-15deg)}75%{transform:rotate(15deg)}}
+.pop-up{display:block !important; animation:pop 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);} @keyframes pop{0%{transform:scale(0)}100%{transform:scale(1.5)}}
+.happy-jump{animation:h-jump 0.5s infinite;} @keyframes h-jump{0%,100%{transform:scale(1.5) translateY(0)}50%{transform:scale(1.5) translateY(-10px)}}
+</style>
+</head>
+<body>
+<div class="gameboy"><div class="screen-bezel"><div class="screen">
+
+<div id="s-start">
+    <div class="s-clouds"></div>
+    <div class="logo">PEPPA vs POKÉMON<br><span style="color:#ffff00;font-size:10px;">MATH MASTER DX</span></div>
+    <svg class="peppa-start" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="11" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="11" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="12" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="12" height="9" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="6" width="4" height="4" fill="#ffb7b2"/><rect x="15" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="0.5"/><rect x="17" y="7" width="1" height="2" fill="#d48c94"/><rect x="6" y="6" width="2" height="2" fill="#fff"/><rect x="7" y="7" width="1" height="1" fill="#000"/><rect x="10" y="6" width="2" height="2" fill="#fff"/><rect x="11" y="7" width="1" height="1" fill="#000"/><rect x="5" y="9" width="3" height="3" fill="#ff8da1" opacity="0.7"/><path d="M4 13 h10 l2 6 h-14 z" fill="#e74c3c"/><path d="M4 13 h10 l2 6 h-14 z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="1" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="1" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="16" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="16" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="6" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="6" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="12" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="12" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="5" y="21" width="4" height="1" fill="#000"/><rect x="11" y="21" width="4" height="1" fill="#000"/></svg>
+    <div style="text-align:center;width:100%;z-index:2">
+        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0</span>/11</div>
+        <div class="menu-btn" style="background:#58d058" onclick="showDiff()">🌱 START GAME</div>
+        <div class="menu-btn" style="background:#3498db" onclick="dex()">📖 POKÉDEX</div>
+    </div>
+</div>
+
+<div id="s-diff" class="hidden">
+    <div class="diff-title">SELECT DIFFICULTY</div>
+    <div class="diff-btn d-easy" onclick="battle('easy')">EASY</div>
+    <div class="diff-btn d-hard" onclick="battle('hard')">HARD<br><span style="font-size:6px; color:#ff0;">✨ 隱藏神獸出沒! ✨</span></div>
+    <div class="menu-btn" onclick="home()">BACK</div>
+</div>
+
+<div id="s-battle" class="hidden">
+    <div class="view">
+        <div class="bg-sun"></div><div class="bg-hills"></div><div class="bg-ground"></div>
+        <div class="hud hud-e"><div id="e-name">?</div><div class="hbar"><div class="hfill" id="e-hp"></div></div></div>
+        <img id="e-img" class="pos-e" src="">
+        <svg class="pos-p" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="13" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="13" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="14" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="14" height="9" fill="none" stroke="#000" stroke-width="0.5"/><path d="M4 13 h12 l2 6 h-16 z" fill="#e74c3c"/><path d="M4 13 h12 l2 6 h-16 z" fill="none" stroke="#000" stroke-width="0.5"/><path d="M16 16 c1 0 2 1 2 2 s-1 2-2 2" fill="none" stroke="#ff8da1" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div class="hud hud-p"><div>PEPPA</div><div class="hbar"><div class="hfill" id="p-hp"></div></div></div>
+    </div>
+    <div class="ctrl">
+        <div class="msg" id="msg">...</div>
+        <div id="q-area" class="q-text"></div>
+        <div id="act" class="grid"></div>
+    </div>
+</div>
+
+<div id="s-dex" class="hidden">
+    <div style="text-align:center;color:#fff;margin-bottom:10px;font-size:12px">POKÉDEX</div>
+    <div class="d-grid" id="d-grid"></div><div class="menu-btn" style="width:100%" onclick="home()">BACK</div>
+</div>
+
+<div id="l-ball" class="hidden"><div id="flash"></div>
+    <img id="c-display" src="">
+    <svg id="ball" width="60" height="60" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="5"/><path d="M5 50 A 45 45 0 0 1 95 50" fill="#f00" stroke="none"/><line x1="5" y1="50" x2="95" y2="50" stroke="#000" stroke-width="8"/><circle cx="50" cy="50" r="14" fill="#fff" stroke="#000" stroke-width="5"/></svg>
+</div>
+
+</div></div></div>
+
+<script>
+const DB=[
+    {id:1,n:"Bulbasaur",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png", h:false},
+    {id:4,n:"Charmander",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png", h:false},
+    {id:7,n:"Squirtle",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png", h:false},
+    {id:25,n:"Pikachu",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png", h:false},
+    {id:39,n:"Jigglypuff",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png", h:false},
+    {id:52,n:"Meowth",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/52.png", h:false},
+    {id:54,n:"Psyduck",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png", h:false},
+    {id:133,n:"Eevee",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png", h:false},
+    {id:143,n:"Snorlax",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png", h:false},
+    {id:151,n:"Mew",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png", h:true},
+    {id:150,n:"Mewtwo",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png", h:true}
+];
+
+let my=[], c={m:null,eh:150,ph:100,a:0,cap:false,diff:'easy'}, timer=null;
+
+function init(){rd();document.getElementById('d-cnt').innerText=0;}
+function show(id){document.querySelectorAll('.screen>div').forEach(d=>d.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
+function home(){show('s-start');} 
+function showDiff(){show('s-diff');}
+function dex(){rd();show('s-dex');}
+
+function battle(diff){
+    if(timer) clearTimeout(timer);
+    c = { m:null, eh:150, ph:100, cap:false, diff:diff||'easy' };
+    
+    let pool = DB.filter(p => c.diff === 'hard' ? true : !p.h);
+    c.m = pool[Math.floor(Math.random()*pool.length)]; 
+    
+    document.getElementById('e-name').innerText=c.m.n; 
+    let img = document.getElementById('e-img'); img.src=c.m.i; img.style.opacity=1; img.classList.remove('shiny');
+    
+    if(Math.random() < 0.1) { img.classList.add('shiny'); msg(`A Shiny ${c.m.n} appeared!`); } 
+    else if(c.m.h) { msg(`LEGENDARY ${c.m.n} appeared!`); }
+    else { msg(`Wild ${c.m.n} appeared!`); }
+    
+    document.getElementById('q-area').innerText = ""; 
+    uh(); show('s-battle'); timer = setTimeout(turn,1500);
+}
+
+function turn(){
+    if(c.ph<=0){msg("Peppa fainted..."); timer=setTimeout(home,2000); return;}
+    
+    if(c.eh < 50 && !c.cap){
+        c.cap=true;msg("It's weak! Catch it!");
+        document.getElementById('q-area').innerText = "";
+        document.getElementById('act').innerHTML=`<div class="b-btn catch" style="grid-column:span 2" onclick="goCatch()">🔴 THROW BALL!</div>`;
+    }else{ 
+        msg("Peppa attacks!"); 
+        genQ(); 
+    }
+}
+
+function genQ() {
+    let n1, n2, txt, ans;
+    if (c.diff === 'easy') {
+        n1 = Math.floor(Math.random()*11); 
+        n2 = Math.floor(Math.random()*11);
+        ans = n1 * n2;
+        txt = `${n1} x ${n2} = ?`;
+    } else {
+        // Hard: (0-10)x(0-10) +/- (0-10)x(0-10)
+        let a = Math.floor(Math.random()*11);
+        let b = Math.floor(Math.random()*11);
+        let d = Math.floor(Math.random()*6); 
+        let e = Math.floor(Math.random()*6);
+        let p1 = a*b, p2 = d*e;
+        
+        if (Math.random() > 0.5) {
+            ans = p1 + p2; txt = `${a}x${b} + ${d}x${e} = ?`;
+        } else {
+            if (p1 < p2) { [p1,p2]=[p2,p1]; [a,b,d,e]=[d,e,a,b]; }
+            ans = p1 - p2; txt = `${a}x${b} - ${d}x${e} = ?`;
+        }
+    }
+    c.a = ans;
+    let qArea = document.getElementById('q-area');
+    qArea.innerText = txt;
+    qArea.className = "q-text";
+
+    let h='', o=new Set([c.a]);
+    while(o.size<4) {
+        let f = c.a + Math.floor(Math.random()*10-5)*2;
+        if(f>=0 && f!==c.a) o.add(f); else o.add(c.a+1);
+    }
+    Array.from(o).sort(()=>Math.random()-.5).forEach(v=>{
+        h+=`<div class="b-btn" onclick="atk(${v}, this)">${v}</div>`
+    });
+    document.getElementById('act').innerHTML=h;
+}
+
+function atk(v, btn){
+    let qArea = document.getElementById('q-area');
+    if(v===c.a){
+        btn.classList.add('btn-correct');
+        let d=30; c.eh-=d; msg("Hit!");
+        qArea.classList.add('anim-correct');
+        document.querySelector('.pos-p').classList.add('atk');setTimeout(()=>document.querySelector('.pos-p').classList.remove('atk'),300);
+        let e=document.getElementById('e-img');e.classList.add('dmg');setTimeout(()=>e.classList.remove('dmg'),400);
+        uh(); 
+        if(c.eh<=0){msg("Enemy fainted!"); document.getElementById('e-img').style.opacity=0; timer=setTimeout(home,2000);} 
+        else { timer=setTimeout(turn,1500); }
+    } else {
+        btn.classList.add('btn-wrong');
+        let d=25; c.ph-=d; 
+        msg(`Wrong! Answer: ${c.a}`);
+        qArea.classList.add('anim-wrong');
+        uh();
+        if(c.eh>0) timer=setTimeout(turn, 2000);
+    }
+}
+
+function goCatch(){
+    let l=document.getElementById('l-ball'), b=document.getElementById('ball'), f=document.getElementById('flash'), cd=document.getElementById('c-display');
+    cd.style.display="none"; cd.classList.remove('happy-jump'); b.style.display="block"; b.style.opacity="1"; b.style.transform="scale(1)";
+    l.classList.remove('hidden'); b.classList.add('b-throw');
+    setTimeout(()=>{ b.classList.remove('b-throw'); b.classList.add('b-open'); f.classList.add('s-flash');
+        setTimeout(()=>{ b.classList.remove('b-open'); f.classList.remove('s-flash'); 
+            b.style.opacity=1; b.style.transform='scale(1)'; b.classList.add('b-shake');
+            setTimeout(()=>{ b.classList.remove('b-shake');
+                b.style.display="none"; cd.src=c.m.i; cd.style.display="block"; cd.classList.add('pop-up');
+                setTimeout(()=>{ cd.classList.remove('pop-up'); cd.classList.add('happy-jump'); },600);
+                if(!my.includes(c.m.id))my.push(c.m.id); msg(`Gotcha! ${c.m.n}!`);
+                document.getElementById('d-cnt').innerText=my.length; document.getElementById('e-img').style.opacity=0;
+                timer=setTimeout(()=>{l.classList.add('hidden');home();},3000);
+            },1500);
+        },500);
+    },500);
+}
+function uh(){
+    document.getElementById('e-hp').style.width=Math.max(0,c.eh/1.5)+'%'; document.getElementById('p-hp').style.width=Math.max(0,c.ph)+'%';
+    document.getElementById('e-hp').style.background=c.eh<50?'#d04848':'#58d058';
+}
+function rd(){
+    let h=''; DB.forEach(d=>{let got=my.includes(d.id);h+=`<div class="slot ${got?'got':''}"><img src="${d.i}" style="width:30px"><br><div style="font-size:6px;margin-top:2px">${got?d.n:'???'}</div></div>`});
+    document.getElementById('d-grid').innerHTML=h;
+}
+function msg(t){document.getElementById('msg').innerText=t;}
+init();
+</script>
+</body>
+</html>
