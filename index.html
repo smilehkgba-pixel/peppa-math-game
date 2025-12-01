@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Peppa Math Master Final Pokedex</title>
+<title>Peppa Math Master Final v3</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 :root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; }
@@ -14,7 +14,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .screen { background:#f8f8f8; flex:1; border:3px solid #000; position:relative; overflow:hidden; display:flex; flex-direction:column; }
 .hidden { display:none !important; }
 
-/* === Start Screen === */
+/* === 1. Start Screen === */
 #s-start { flex:1; background:linear-gradient(var(--blue) 50%, #7cfc00 50%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden;}
 .s-clouds { position:absolute; top:20px; left:0; width:200%; height:40px; background:url('data:image/svg+xml;utf8,<svg width="100" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M10 30 Q25 10 40 30 Q55 10 70 30 Q85 10 100 30" stroke="white" fill="white" opacity="0.6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>') repeat-x; animation: c-move 30s linear infinite; z-index:1; }
 .logo { font-size:13px; text-align:center; color:#fff; text-shadow:3px 3px 0 #000; line-height:1.6; margin-bottom:20px; z-index:2; }
@@ -22,17 +22,16 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .menu-btn { background:#fff; border:3px solid #000; padding:12px; width:85%; text-align:center; margin:8px auto 0 auto; cursor:pointer; font-size:10px; box-shadow:4px 4px 0 rgba(0,0,0,0.3); color:#000; z-index:2; display:block; }
 .menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.3); }
 
-/* === Difficulty Select === */
+/* === 2. Difficulty Select === */
 #s-diff { flex:1; background:#2c3e50; padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
 .diff-title { color:#fff; font-size:12px; margin-bottom:30px; text-align:center; text-shadow: 2px 2px 0 #000; }
 .diff-btn { width:100%; padding:20px 10px; margin-bottom:20px; border:3px solid #000; cursor:pointer; font-size:12px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; }
-.diff-btn:hover { transform:translateX(5px); }
 .diff-btn:active { transform:translate(2px,2px); box-shadow:none; }
 .d-easy { background:#2ecc71; } 
 .d-hard { background:#e74c3c; color:#fff; animation: border-pulse 2s infinite; }
 @keyframes border-pulse { 0% {box-shadow: 4px 4px 0 #000;} 50% {box-shadow: 4px 4px 0 #ffff00;} 100% {box-shadow: 4px 4px 0 #000;} }
 
-/* === Battle Scene === */
+/* === 3. Battle Scene === */
 #s-battle { flex:1; display:flex; flex-direction:column; }
 .view { height:55%; background:linear-gradient(var(--blue) 60%, #a8e6cf 60%); position:relative; border-bottom:3px solid #000; overflow:hidden; }
 .bg-sun { position:absolute; top:10px; right:20px; width:40px; height:40px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="%23fff700"/><path d="M10 0v4M10 16v4M0 10h4M16 10h4M3 3l3 3M14 14l3 3M3 17l3-3M14 6l3-3" stroke="%23fff700" stroke-width="2"/></svg>') no-repeat; z-index:0; }
@@ -55,18 +54,31 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .btn-wrong { background: #e74c3c !important; color: #fff !important; border-color: #c0392b !important; }
 .catch { background:#ff4757; color:white; border-color:#c0392b; animation:pulse 1s infinite; }
 
-/* === Dex & Anim === */
+/* === 4. Dex & Detail === */
 #s-dex { flex:1; background:var(--red); display:flex; flex-direction:column; padding:10px; position: relative; }
 .d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; overflow-y:auto; flex:1; padding-bottom:5px; }
 .slot { background:#fff; border:2px solid #000; text-align:center; padding:5px; filter:grayscale(1) brightness(0.7); cursor: default; }
 .slot.got { filter:grayscale(0) brightness(1); border-color:gold; cursor: pointer; transition: transform 0.1s; }
 .slot.got:active { transform: scale(0.95); }
 
-/* Pokedex Detail View (New) */
-#dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-#dd-name { color:#fff; font-size:14px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; text-shadow: 2px 2px 0 #000; }
-#dd-img { width:150px; height:150px; image-rendering:pixelated; margin-bottom:20px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
+/* Pokedex Detail View (Pop-up) */
+#dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+#dd-name { color:#fff; font-size:16px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; text-shadow: 2px 2px 0 #000; }
+#dd-img { width:180px; height:180px; image-rendering:pixelated; margin-bottom:20px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
 
+/* Awards Menu */
+#awards-menu { position:absolute; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index:15; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+.aw-btn { width:100%; margin-bottom:15px; padding:15px; font-size:10px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; }
+.aw-btn.unlocked { background:#f1c40f; color:#000; border-color:#000; animation: pulse 1s infinite; }
+
+/* === Awards Display === */
+.award-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; }
+#s-award-9 { background: #3498db; }
+#s-award-12 { background: linear-gradient(135deg, #f1c40f, #e67e22); }
+.award-img { width: 90%; max-width: 300px; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+.award-title { font-size: 14px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; }
+
+/* Animation Layer */
 #l-ball { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99; display:flex; flex-direction:column; justify-content:center; align-items:center; }
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
 #c-display { width:180px; height:180px; display:none; z-index:102; filter:drop-shadow(0 0 10px gold); }
@@ -74,13 +86,6 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .q-text { font-size: 13px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 5px; text-align: center; }
 .anim-correct { color: #2ecc71; animation: bounce-text 0.3s; text-shadow: 2px 2px 0 #000; }
 .anim-wrong { color: #e74c3c; animation: shake-text 0.3s; text-shadow: 2px 2px 0 #000; }
-
-/* === Awards === */
-.award-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; }
-#s-award-9 { background: #3498db; }
-#s-award-12 { background: linear-gradient(135deg, #f1c40f, #e67e22); }
-.award-img { width: 90%; max-width: 300px; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-.award-title { font-size: 14px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; }
 
 @keyframes bounce-text { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.3);} }
 @keyframes shake-text { 0% {transform: translateX(0);} 25% {transform: translateX(5px);} 75% {transform: translateX(-5px);} 100% {transform: translateX(0);} }
@@ -106,7 +111,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
     <div class="logo">PEPPA vs POKÉMON<br><span style="color:#ffff00;font-size:10px;">MATH MASTER DX</span></div>
     <svg class="peppa-start" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="11" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="11" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="12" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="12" height="9" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="6" width="4" height="4" fill="#ffb7b2"/><rect x="15" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="0.5"/><rect x="17" y="7" width="1" height="2" fill="#d48c94"/><rect x="6" y="6" width="2" height="2" fill="#fff"/><rect x="7" y="7" width="1" height="1" fill="#000"/><rect x="10" y="6" width="2" height="2" fill="#fff"/><rect x="11" y="7" width="1" height="1" fill="#000"/><rect x="5" y="9" width="3" height="3" fill="#ff8da1" opacity="0.7"/><path d="M4 13 h10 l2 6 h-14 z" fill="#e74c3c"/><path d="M4 13 h10 l2 6 h-14 z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="1" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="1" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="16" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="16" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="6" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="6" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="12" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="12" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="5" y="21" width="4" height="1" fill="#000"/><rect x="11" y="21" width="4" height="1" fill="#000"/></svg>
     <div style="text-align:center;width:100%;z-index:2">
-        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0</span>/12</div>
+        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0/12</span></div>
         <div class="menu-btn" style="background:#58d058" onclick="showDiff()">🌱 START GAME</div>
         <div class="menu-btn" style="background:#3498db" onclick="dex()">📖 POKÉDEX</div>
     </div>
@@ -135,7 +140,10 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 </div>
 
 <div id="s-dex" class="hidden">
-    <div style="text-align:center;color:#fff;margin-bottom:10px;font-size:12px">POKÉDEX</div>
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #000; margin-bottom:5px; padding-bottom:5px;">
+        <div style="color:#fff;font-size:12px">POKÉDEX</div>
+        <div style="font-size:8px; background:#f1c40f; color:#000; padding:4px; border:2px solid #000; cursor:pointer;" onclick="openAwards()">🏆 AWARDS</div>
+    </div>
     <div class="d-grid" id="d-grid"></div>
     <div class="menu-btn" style="width:100%" onclick="home()">BACK</div>
     
@@ -144,20 +152,27 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
         <img id="dd-img" src="">
         <div class="menu-btn" style="width:80%" onclick="closeDetail()">CLOSE</div>
     </div>
+
+    <div id="awards-menu" class="hidden">
+        <div style="color:#fff; margin-bottom:20px;">ACHIEVEMENTS</div>
+        <div id="btn-aw-9" class="aw-btn" onclick="showAward(9)">9 POKEMON AWARD<br>(LOCKED)</div>
+        <div id="btn-aw-12" class="aw-btn" onclick="showAward(12)">MASTER AWARD<br>(LOCKED)</div>
+        <div class="menu-btn" onclick="closeAwards()">CLOSE</div>
+    </div>
 </div>
 
 <div id="s-award-9" class="hidden award-screen">
     <div class="award-title">CERTIFICATE OF ACHIEVEMENT</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2800.jpeg" class="award-img">
     <div style="font-size:10px;color:#fff;margin-bottom:20px;">You caught all 9 ordinary Pokémon!</div>
-    <div class="menu-btn" onclick="home()">CONTINUE</div>
+    <div class="menu-btn" onclick="backToDex()">CONTINUE</div>
 </div>
 
 <div id="s-award-12" class="hidden award-screen">
     <div class="award-title" style="color:gold;">ULTIMATE MATH MASTER</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2801.jpeg" class="award-img">
     <div style="font-size:10px;color:#fff;margin-bottom:20px;">INCREDIBLE! You caught ALL 12 Pokémon!</div>
-    <div class="menu-btn" onclick="home()">BACK TO TITLE</div>
+    <div class="menu-btn" onclick="backToDex()">CONTINUE</div>
 </div>
 
 <div id="l-ball" class="hidden"><div id="flash"></div>
@@ -178,7 +193,7 @@ const DB=[
     {id:54,n:"Psyduck",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png", h:false},
     {id:133,n:"Eevee",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png", h:false},
     {id:143,n:"Snorlax",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png", h:false},
-    // 神獸 (Hard Only, 3隻)
+    // Legendary
     {id:144,n:"Articuno",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png", h:true},
     {id:151,n:"Mew",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png", h:true},
     {id:150,n:"Mewtwo",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png", h:true}
@@ -187,29 +202,55 @@ const DB=[
 let my=[], c={m:null,eh:150,ph:100,a:0,cap:false,diff:'easy'}, timer=null;
 let awarded9 = false;
 
-function init(){rd();document.getElementById('d-cnt').innerText=`0/${DB.length}`;}
+function init(){
+    // Try load save (optional)
+    rd(); document.getElementById('d-cnt').innerText=`0/${DB.length}`;
+}
+
 function show(id){document.querySelectorAll('.screen>div').forEach(d=>d.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
 function home(){show('s-start');} 
 function showDiff(){show('s-diff');}
 function dex(){rd();show('s-dex');}
 
-// === Pokedex Detail Logic ===
+// === Pokedex & Awards ===
 function showDetail(id) {
     let p = DB.find(x => x.id === id);
     document.getElementById('dd-name').innerText = p.n;
     document.getElementById('dd-img').src = p.i;
     document.getElementById('dex-detail').classList.remove('hidden');
 }
-function closeDetail() {
-    document.getElementById('dex-detail').classList.add('hidden');
-}
-// ============================
+function closeDetail() { document.getElementById('dex-detail').classList.add('hidden'); }
 
+function openAwards() {
+    let norm = my.filter(id=>!DB.find(p=>p.id===id).h).length;
+    let b9 = document.getElementById('btn-aw-9');
+    let b12 = document.getElementById('btn-aw-12');
+    
+    if(norm>=9) { b9.innerHTML="9 POKEMON AWARD<br>(VIEW)"; b9.classList.add('unlocked'); }
+    else { b9.innerHTML="9 POKEMON AWARD<br>(LOCKED)"; b9.classList.remove('unlocked'); }
+    
+    if(my.length>=12) { b12.innerHTML="MASTER AWARD<br>(VIEW)"; b12.classList.add('unlocked'); }
+    else { b12.innerHTML="MASTER AWARD<br>(LOCKED)"; b12.classList.remove('unlocked'); }
+    
+    document.getElementById('awards-menu').classList.remove('hidden');
+}
+function closeAwards() { document.getElementById('awards-menu').classList.add('hidden'); }
+
+function showAward(type) {
+    let norm = my.filter(id=>!DB.find(p=>p.id===id).h).length;
+    if(type===9 && norm>=9) show('s-award-9');
+    if(type===12 && my.length>=12) show('s-award-12');
+}
+function backToDex() { show('s-dex'); }
+
+// === Battle System ===
 function battle(diff){
     if(timer) clearTimeout(timer);
+    
+    // 1. Reset State Completely
     c = { m:null, eh:150, ph:100, cap:false, diff:diff||'easy' };
     
-    // Smart Spawning
+    // 2. Select Pokemon
     let uncollectedIds = DB.map(p=>p.id).filter(id => !my.includes(id));
     let pool;
     if (c.diff === 'hard') {
@@ -219,17 +260,18 @@ function battle(diff){
         let uncollectedNormals = DB.filter(p => !p.h && uncollectedIds.includes(p.id));
         pool = uncollectedNormals.length > 0 ? uncollectedNormals : DB.filter(p => !p.h);
     }
-    
     c.m = pool[Math.floor(Math.random()*pool.length)]; 
     
+    // 3. Setup UI
     document.getElementById('e-name').innerText=c.m.n; 
     let img = document.getElementById('e-img'); img.src=c.m.i; img.style.opacity=1; img.classList.remove('shiny');
-    
     if(Math.random() < 0.1) { img.classList.add('shiny'); msg(`A Shiny ${c.m.n} appeared!`); } 
     else if(c.m.h) { msg(`LEGENDARY ${c.m.n} appeared!`); }
     else { msg(`Wild ${c.m.n} appeared!`); }
     
     document.getElementById('q-area').innerText = ""; 
+    document.getElementById('act').innerHTML = ""; // Clear buttons
+    
     uh(); show('s-battle'); timer = setTimeout(turn,1500);
 }
 
@@ -249,45 +291,27 @@ function turn(){
 function genQ() {
     let n1, n2, txt, ans;
     if (c.diff === 'easy') {
-        n1 = Math.floor(Math.random()*11); 
-        n2 = Math.floor(Math.random()*11);
-        ans = n1 * n2;
-        txt = `${n1} x ${n2} = ?`;
+        n1 = Math.floor(Math.random()*11); n2 = Math.floor(Math.random()*11);
+        ans = n1 * n2; txt = `${n1} x ${n2} = ?`;
     } else {
-        let a = Math.floor(Math.random()*11);
-        let b = Math.floor(Math.random()*11);
-        let d = Math.floor(Math.random()*6); 
-        let e = Math.floor(Math.random()*6);
+        let a = Math.floor(Math.random()*11); let b = Math.floor(Math.random()*11);
+        let d = Math.floor(Math.random()*6); let e = Math.floor(Math.random()*6);
         let p1 = a*b, p2 = d*e;
-        
-        if (Math.random() > 0.5) {
-            ans = p1 + p2; txt = `${a}x${b} + ${d}x${e} = ?`;
-        } else {
-            if (p1 < p2) { [p1,p2]=[p2,p1]; [a,b,d,e]=[d,e,a,b]; }
-            ans = p1 - p2; txt = `${a}x${b} - ${d}x${e} = ?`;
-        }
+        if (Math.random() > 0.5) { ans = p1 + p2; txt = `${a}x${b} + ${d}x${e} = ?`; } 
+        else { if(p1<p2){[p1,p2]=[p2,p1];[a,b,d,e]=[d,e,a,b];} ans = p1 - p2; txt = `${a}x${b} - ${d}x${e} = ?`; }
     }
     c.a = ans;
-    let qArea = document.getElementById('q-area');
-    qArea.innerText = txt;
-    qArea.className = "q-text";
-
+    let qArea = document.getElementById('q-area'); qArea.innerText = txt; qArea.className = "q-text";
     let h='', o=new Set([c.a]);
-    while(o.size<4) {
-        let f = c.a + Math.floor(Math.random()*10-5)*2;
-        if(f>=0 && f!==c.a) o.add(f); else o.add(c.a+1);
-    }
-    Array.from(o).sort(()=>Math.random()-.5).forEach(v=>{
-        h+=`<div class="b-btn" onclick="atk(${v}, this)">${v}</div>`
-    });
+    while(o.size<4) { let f=c.a+Math.floor(Math.random()*10-5)*2; if(f>=0 && f!==c.a)o.add(f); else o.add(c.a+1); }
+    Array.from(o).sort(()=>Math.random()-.5).forEach(v=>{h+=`<div class="b-btn" onclick="atk(${v}, this)">${v}</div>`});
     document.getElementById('act').innerHTML=h;
 }
 
 function atk(v, btn){
     let qArea = document.getElementById('q-area');
     if(v===c.a){
-        btn.classList.add('btn-correct');
-        let d=30; c.eh-=d; msg("Hit!");
+        btn.classList.add('btn-correct'); let d=30; c.eh-=d; msg("Hit!");
         qArea.classList.add('anim-correct');
         document.querySelector('.pos-p').classList.add('atk');setTimeout(()=>document.querySelector('.pos-p').classList.remove('atk'),300);
         let e=document.getElementById('e-img');e.classList.add('dmg');setTimeout(()=>e.classList.remove('dmg'),400);
@@ -295,11 +319,8 @@ function atk(v, btn){
         if(c.eh<=0){msg("Enemy fainted!"); document.getElementById('e-img').style.opacity=0; timer=setTimeout(home,2000);} 
         else { timer=setTimeout(turn,1500); }
     } else {
-        btn.classList.add('btn-wrong');
-        let d=25; c.ph-=d; 
-        msg(`Wrong! Answer: ${c.a}`);
-        qArea.classList.add('anim-wrong');
-        uh();
+        btn.classList.add('btn-wrong'); let d=25; c.ph-=d; 
+        msg(`Wrong! Answer: ${c.a}`); qArea.classList.add('anim-wrong'); uh();
         if(c.eh>0) timer=setTimeout(turn, 2000);
     }
 }
@@ -321,9 +342,9 @@ function goCatch(){
                 
                 timer=setTimeout(()=>{
                     l.classList.add('hidden');
-                    let normalCount = my.filter(id => !DB.find(p=>p.id===id).h).length;
+                    let norm = my.filter(id => !DB.find(p=>p.id===id).h).length;
                     if(my.length === DB.length) { show('s-award-12'); }
-                    else if (normalCount === 9 && !awarded9 && !c.m.h) { awarded9 = true; show('s-award-9'); }
+                    else if (norm === 9 && !awarded9 && !c.m.h) { awarded9 = true; show('s-award-9'); }
                     else { home(); }
                 },3000);
             },1500);
