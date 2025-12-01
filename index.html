@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Peppa Math Master Final v3</title>
+<title>Peppa Math Master Final Fix</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 :root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; }
-* { box-sizing:border-box; image-rendering:pixelated; font-family:'Press Start 2P',cursive; user-select:none; }
+* { box-sizing:border-box; image-rendering:pixelated; font-family:'Press Start 2P',cursive; user-select:none; -webkit-tap-highlight-color: transparent; }
 body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
 .gameboy { width:100%; max-width:420px; height:98vh; background:var(--gb); border-radius:10px 10px 30px 30px; padding:12px; display:flex; flex-direction:column; box-shadow:inset -5px -5px 10px rgba(0,0,0,0.2); position:relative; }
 .screen-bezel { background:#555; padding:10px 10px 25px 10px; border-radius:5px 5px 20px 5px; flex:1; display:flex; flex-direction:column; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.5); }
@@ -48,37 +48,34 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .ctrl { flex:1; background:#2c3e50; border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; }
 .msg { background:#fff; border:2px solid #000; padding:8px; font-size:9px; height:40px; margin-bottom:8px; color:#000; line-height:1.3; }
 .grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:1; }
+/* 按鈕樣式 */
 .b-btn { background:#fff; border:2px solid #555; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer; color:#000; box-shadow:0 3px 0 #888; transition: background 0.1s; }
 .b-btn:active { transform:translateY(3px); box-shadow:none; }
 .btn-correct { background: #2ecc71 !important; color: #fff !important; border-color: #27ae60 !important; }
 .btn-wrong { background: #e74c3c !important; color: #fff !important; border-color: #c0392b !important; }
 .catch { background:#ff4757; color:white; border-color:#c0392b; animation:pulse 1s infinite; }
 
-/* === 4. Dex & Detail === */
+/* === Dex & Detail === */
 #s-dex { flex:1; background:var(--red); display:flex; flex-direction:column; padding:10px; position: relative; }
 .d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; overflow-y:auto; flex:1; padding-bottom:5px; }
 .slot { background:#fff; border:2px solid #000; text-align:center; padding:5px; filter:grayscale(1) brightness(0.7); cursor: default; }
 .slot.got { filter:grayscale(0) brightness(1); border-color:gold; cursor: pointer; transition: transform 0.1s; }
 .slot.got:active { transform: scale(0.95); }
 
-/* Pokedex Detail View (Pop-up) */
 #dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; }
 #dd-name { color:#fff; font-size:16px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; text-shadow: 2px 2px 0 #000; }
 #dd-img { width:180px; height:180px; image-rendering:pixelated; margin-bottom:20px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
 
-/* Awards Menu */
 #awards-menu { position:absolute; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index:15; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
 .aw-btn { width:100%; margin-bottom:15px; padding:15px; font-size:10px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; }
 .aw-btn.unlocked { background:#f1c40f; color:#000; border-color:#000; animation: pulse 1s infinite; }
 
-/* === Awards Display === */
 .award-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; }
 #s-award-9 { background: #3498db; }
 #s-award-12 { background: linear-gradient(135deg, #f1c40f, #e67e22); }
 .award-img { width: 90%; max-width: 300px; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
 .award-title { font-size: 14px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; }
 
-/* Animation Layer */
 #l-ball { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99; display:flex; flex-direction:column; justify-content:center; align-items:center; }
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
 #c-display { width:180px; height:180px; display:none; z-index:102; filter:drop-shadow(0 0 10px gold); }
@@ -199,20 +196,15 @@ const DB=[
     {id:150,n:"Mewtwo",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png", h:true}
 ];
 
-let my=[], c={m:null,eh:150,ph:100,a:0,cap:false,diff:'easy'}, timer=null;
+let my=[], c={m:null,eh:150,ph:100,a:0,cap:false,diff:'easy',lock:false}, timer=null;
 let awarded9 = false;
 
-function init(){
-    // Try load save (optional)
-    rd(); document.getElementById('d-cnt').innerText=`0/${DB.length}`;
-}
-
+function init(){rd();document.getElementById('d-cnt').innerText=`0/${DB.length}`;}
 function show(id){document.querySelectorAll('.screen>div').forEach(d=>d.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
 function home(){show('s-start');} 
 function showDiff(){show('s-diff');}
 function dex(){rd();show('s-dex');}
 
-// === Pokedex & Awards ===
 function showDetail(id) {
     let p = DB.find(x => x.id === id);
     document.getElementById('dd-name').innerText = p.n;
@@ -243,14 +235,10 @@ function showAward(type) {
 }
 function backToDex() { show('s-dex'); }
 
-// === Battle System ===
 function battle(diff){
     if(timer) clearTimeout(timer);
+    c = { m:null, eh:150, ph:100, cap:false, diff:diff||'easy', lock:false };
     
-    // 1. Reset State Completely
-    c = { m:null, eh:150, ph:100, cap:false, diff:diff||'easy' };
-    
-    // 2. Select Pokemon
     let uncollectedIds = DB.map(p=>p.id).filter(id => !my.includes(id));
     let pool;
     if (c.diff === 'hard') {
@@ -260,22 +248,24 @@ function battle(diff){
         let uncollectedNormals = DB.filter(p => !p.h && uncollectedIds.includes(p.id));
         pool = uncollectedNormals.length > 0 ? uncollectedNormals : DB.filter(p => !p.h);
     }
+    
     c.m = pool[Math.floor(Math.random()*pool.length)]; 
     
-    // 3. Setup UI
     document.getElementById('e-name').innerText=c.m.n; 
     let img = document.getElementById('e-img'); img.src=c.m.i; img.style.opacity=1; img.classList.remove('shiny');
+    
     if(Math.random() < 0.1) { img.classList.add('shiny'); msg(`A Shiny ${c.m.n} appeared!`); } 
     else if(c.m.h) { msg(`LEGENDARY ${c.m.n} appeared!`); }
     else { msg(`Wild ${c.m.n} appeared!`); }
     
     document.getElementById('q-area').innerText = ""; 
-    document.getElementById('act').innerHTML = ""; // Clear buttons
+    document.getElementById('act').innerHTML = ""; // Clear buttons first
     
     uh(); show('s-battle'); timer = setTimeout(turn,1500);
 }
 
 function turn(){
+    c.lock = false;
     if(c.ph<=0){msg("Peppa fainted..."); timer=setTimeout(home,2000); return;}
     
     if(c.eh < 50 && !c.cap){
@@ -291,27 +281,48 @@ function turn(){
 function genQ() {
     let n1, n2, txt, ans;
     if (c.diff === 'easy') {
-        n1 = Math.floor(Math.random()*11); n2 = Math.floor(Math.random()*11);
-        ans = n1 * n2; txt = `${n1} x ${n2} = ?`;
+        n1 = Math.floor(Math.random()*11); 
+        n2 = Math.floor(Math.random()*11);
+        ans = n1 * n2;
+        txt = `${n1} x ${n2} = ?`;
     } else {
-        let a = Math.floor(Math.random()*11); let b = Math.floor(Math.random()*11);
-        let d = Math.floor(Math.random()*6); let e = Math.floor(Math.random()*6);
+        let a = Math.floor(Math.random()*11);
+        let b = Math.floor(Math.random()*11);
+        let d = Math.floor(Math.random()*6); 
+        let e = Math.floor(Math.random()*6);
         let p1 = a*b, p2 = d*e;
-        if (Math.random() > 0.5) { ans = p1 + p2; txt = `${a}x${b} + ${d}x${e} = ?`; } 
-        else { if(p1<p2){[p1,p2]=[p2,p1];[a,b,d,e]=[d,e,a,b];} ans = p1 - p2; txt = `${a}x${b} - ${d}x${e} = ?`; }
+        
+        if (Math.random() > 0.5) {
+            ans = p1 + p2; txt = `${a}x${b} + ${d}x${e} = ?`;
+        } else {
+            if (p1 < p2) { [p1,p2]=[p2,p1]; [a,b,d,e]=[d,e,a,b]; }
+            ans = p1 - p2; txt = `${a}x${b} - ${d}x${e} = ?`;
+        }
     }
     c.a = ans;
-    let qArea = document.getElementById('q-area'); qArea.innerText = txt; qArea.className = "q-text";
+    let qArea = document.getElementById('q-area');
+    qArea.innerText = txt;
+    qArea.className = "q-text";
+
     let h='', o=new Set([c.a]);
-    while(o.size<4) { let f=c.a+Math.floor(Math.random()*10-5)*2; if(f>=0 && f!==c.a)o.add(f); else o.add(c.a+1); }
-    Array.from(o).sort(()=>Math.random()-.5).forEach(v=>{h+=`<div class="b-btn" onclick="atk(${v}, this)">${v}</div>`});
+    while(o.size<4) {
+        let f = c.a + Math.floor(Math.random()*10-5)*2;
+        if(f>=0 && f!==c.a) o.add(f); else o.add(c.a+1);
+    }
+    Array.from(o).sort(()=>Math.random()-.5).forEach(v=>{
+        h+=`<div class="b-btn" onclick="atk(${v}, this)">${v}</div>`
+    });
     document.getElementById('act').innerHTML=h;
 }
 
 function atk(v, btn){
+    if(c.lock) return;
+    c.lock = true;
+
     let qArea = document.getElementById('q-area');
     if(v===c.a){
-        btn.classList.add('btn-correct'); let d=30; c.eh-=d; msg("Hit!");
+        btn.classList.add('btn-correct');
+        let d=30; c.eh-=d; msg("Hit!");
         qArea.classList.add('anim-correct');
         document.querySelector('.pos-p').classList.add('atk');setTimeout(()=>document.querySelector('.pos-p').classList.remove('atk'),300);
         let e=document.getElementById('e-img');e.classList.add('dmg');setTimeout(()=>e.classList.remove('dmg'),400);
@@ -319,13 +330,19 @@ function atk(v, btn){
         if(c.eh<=0){msg("Enemy fainted!"); document.getElementById('e-img').style.opacity=0; timer=setTimeout(home,2000);} 
         else { timer=setTimeout(turn,1500); }
     } else {
-        btn.classList.add('btn-wrong'); let d=25; c.ph-=d; 
-        msg(`Wrong! Answer: ${c.a}`); qArea.classList.add('anim-wrong'); uh();
+        btn.classList.add('btn-wrong');
+        let d=25; c.ph-=d; 
+        msg(`Wrong! Answer: ${c.a}`);
+        qArea.classList.add('anim-wrong');
+        uh();
         if(c.eh>0) timer=setTimeout(turn, 2000);
     }
 }
 
 function goCatch(){
+    if(c.lock) return;
+    c.lock = true;
+
     let l=document.getElementById('l-ball'), b=document.getElementById('ball'), f=document.getElementById('flash'), cd=document.getElementById('c-display');
     cd.style.display="none"; cd.classList.remove('happy-jump'); b.style.display="block"; b.style.opacity="1"; b.style.transform="scale(1)";
     l.classList.remove('hidden'); b.classList.add('b-throw');
