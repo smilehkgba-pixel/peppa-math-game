@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Peppa Math Master Final Big</title>
+<title>Peppa Math Master Final DX</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-:root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; }
+:root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; --gold:#ffd700; }
 * { box-sizing:border-box; image-rendering:pixelated; font-family:'Press Start 2P',cursive; user-select:none; }
 body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
 .gameboy { width:100%; max-width:420px; height:98vh; background:var(--gb); border-radius:10px 10px 30px 30px; padding:12px; display:flex; flex-direction:column; box-shadow:inset -5px -5px 10px rgba(0,0,0,0.2); position:relative; }
@@ -43,15 +43,12 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .hud-e { top:8px; left:8px; } .hud-p { bottom:25px; right:8px; text-align:right; }
 .hbar { width:60px; height:5px; border:1px solid #000; margin-top:2px; background:#ddd; }
 .hfill { height:100%; background:var(--green); transition:width 0.3s; }
-
-/* === 修正：精靈巨大化 (170px) === */
 .pos-e { position:absolute; top:20px; right:5px; width:170px; height:170px; animation:float 2s infinite ease-in-out; z-index:5; }
 .pos-p { position:absolute; bottom:5px; left:10px; width:110px; height:110px; z-index:5; }
 
 .ctrl { flex:1; background:#2c3e50; border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; }
 .msg { background:#fff; border:2px solid #000; padding:8px; font-size:9px; height:40px; margin-bottom:8px; color:#000; line-height:1.3; }
 .grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:1; }
-/* 按鈕樣式 */
 .b-btn { background:#fff; border:2px solid #555; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer; color:#000; box-shadow:0 3px 0 #888; transition: background 0.1s; }
 .b-btn:active { transform:translateY(3px); box-shadow:none; }
 .btn-correct { background: #2ecc71 !important; color: #fff !important; border-color: #27ae60 !important; }
@@ -66,10 +63,16 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 #l-ball { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99; display:flex; flex-direction:column; justify-content:center; align-items:center; }
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
 #c-display { width:180px; height:180px; display:none; z-index:102; filter:drop-shadow(0 0 10px gold); }
-
 .q-text { font-size: 13px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 5px; text-align: center; }
 .anim-correct { color: #2ecc71; animation: bounce-text 0.3s; text-shadow: 2px 2px 0 #000; }
 .anim-wrong { color: #e74c3c; animation: shake-text 0.3s; text-shadow: 2px 2px 0 #000; }
+
+/* === 新增：獎狀畫面 === */
+.award-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; }
+#s-award-9 { background: #3498db; }
+#s-award-12 { background: linear-gradient(135deg, #f1c40f, #e67e22); }
+.award-img { width: 90%; max-width: 300px; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+.award-title { font-size: 14px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; }
 
 @keyframes bounce-text { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.3);} }
 @keyframes shake-text { 0% {transform: translateX(0);} 25% {transform: translateX(5px);} 75% {transform: translateX(-5px);} 100% {transform: translateX(0);} }
@@ -95,7 +98,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
     <div class="logo">PEPPA vs POKÉMON<br><span style="color:#ffff00;font-size:10px;">MATH MASTER DX</span></div>
     <svg class="peppa-start" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="11" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="11" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="12" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="12" height="9" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="6" width="4" height="4" fill="#ffb7b2"/><rect x="15" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="0.5"/><rect x="17" y="7" width="1" height="2" fill="#d48c94"/><rect x="6" y="6" width="2" height="2" fill="#fff"/><rect x="7" y="7" width="1" height="1" fill="#000"/><rect x="10" y="6" width="2" height="2" fill="#fff"/><rect x="11" y="7" width="1" height="1" fill="#000"/><rect x="5" y="9" width="3" height="3" fill="#ff8da1" opacity="0.7"/><path d="M4 13 h10 l2 6 h-14 z" fill="#e74c3c"/><path d="M4 13 h10 l2 6 h-14 z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="1" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="1" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="16" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="16" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="6" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="6" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="12" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="12" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="5" y="21" width="4" height="1" fill="#000"/><rect x="11" y="21" width="4" height="1" fill="#000"/></svg>
     <div style="text-align:center;width:100%;z-index:2">
-        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0</span>/11</div>
+        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0</span>/12</div>
         <div class="menu-btn" style="background:#58d058" onclick="showDiff()">🌱 START GAME</div>
         <div class="menu-btn" style="background:#3498db" onclick="dex()">📖 POKÉDEX</div>
     </div>
@@ -127,6 +130,23 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
     <div style="text-align:center;color:#fff;margin-bottom:10px;font-size:12px">POKÉDEX</div>
     <div class="d-grid" id="d-grid"></div><div class="menu-btn" style="width:100%" onclick="home()">BACK</div>
 </div>
+    
+<div id="s-award-9" class="hidden award-screen">
+    <div class="award-title">CERTIFICATE OF ACHIEVEMENT</div>
+    
+    <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2800.jpeg" class="award-img">
+    
+    <div style="font-size:10px;color:#fff;margin-bottom:20px;">You caught all 9 ordinary Pokémon!</div>
+    <div class="menu-btn" onclick="home()">CONTINUE</div>
+</div>
+<div id="s-award-12" class="hidden award-screen">
+    <div class="award-title" style="color:gold;">ULTIMATE MATH MASTER</div>
+    
+    <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2801.jpeg" class="award-img">
+    
+    <div style="font-size:10px;color:#fff;margin-bottom:20px;">INCREDIBLE! You caught ALL 12 Pokémon!</div>
+    <div class="menu-btn" onclick="home()">BACK TO TITLE</div>
+</div>
 
 <div id="l-ball" class="hidden"><div id="flash"></div>
     <img id="c-display" src="">
@@ -146,13 +166,16 @@ const DB=[
     {id:54,n:"Psyduck",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png", h:false},
     {id:133,n:"Eevee",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png", h:false},
     {id:143,n:"Snorlax",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png", h:false},
+    // 神獸 (Hard Only, 增加到3隻)
+    {id:144,n:"Articuno",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png", h:true},
     {id:151,n:"Mew",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png", h:true},
     {id:150,n:"Mewtwo",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png", h:true}
 ];
 
 let my=[], c={m:null,eh:150,ph:100,a:0,cap:false,diff:'easy'}, timer=null;
+let awarded9 = false; // Flag to check if 9-award is already shown
 
-function init(){rd();document.getElementById('d-cnt').innerText=0;}
+function init(){rd();document.getElementById('d-cnt').innerText=`0/${DB.length}`;}
 function show(id){document.querySelectorAll('.screen>div').forEach(d=>d.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
 function home(){show('s-start');} 
 function showDiff(){show('s-diff');}
@@ -162,8 +185,35 @@ function battle(diff){
     if(timer) clearTimeout(timer);
     c = { m:null, eh:150, ph:100, cap:false, diff:diff||'easy' };
     
-    let pool = DB.filter(p => c.diff === 'hard' ? true : !p.h);
+    // --- 智能刷怪邏輯 ---
+    let pool;
+    // 1. 找出所有未收集的精靈 ID
+    let uncollectedIds = DB.map(p=>p.id).filter(id => !my.includes(id));
+    
+    if (c.diff === 'hard') {
+        // HARD 模式：優先檢查是否有未收集的神獸
+        let uncollectedLegendaries = DB.filter(p => p.h && uncollectedIds.includes(p.id));
+        if (uncollectedLegendaries.length > 0) {
+            // 還有沒捉的神獸，必定從這裡面出
+            pool = uncollectedLegendaries;
+        } else {
+            // 神獸都捉齊了，隨機出任何精靈 (包含已捉過的)
+            pool = DB;
+        }
+    } else {
+        // EASY 模式：優先檢查是否有未收集的普通怪
+        let uncollectedNormals = DB.filter(p => !p.h && uncollectedIds.includes(p.id));
+        if (uncollectedNormals.length > 0) {
+             // 還有沒捉的普通怪，必定從這裡面出
+            pool = uncollectedNormals;
+        } else {
+             // 普通怪都捉齊了，隨機出普通精靈 (包含已捉過的)
+            pool = DB.filter(p => !p.h);
+        }
+    }
+    
     c.m = pool[Math.floor(Math.random()*pool.length)]; 
+    // -------------------
     
     document.getElementById('e-name').innerText=c.m.n; 
     let img = document.getElementById('e-img'); img.src=c.m.i; img.style.opacity=1; img.classList.remove('shiny');
@@ -197,7 +247,6 @@ function genQ() {
         ans = n1 * n2;
         txt = `${n1} x ${n2} = ?`;
     } else {
-        // Hard: (0-10)x(0-10) +/- (0-10)x(0-10)
         let a = Math.floor(Math.random()*11);
         let b = Math.floor(Math.random()*11);
         let d = Math.floor(Math.random()*6); 
@@ -258,9 +307,26 @@ function goCatch(){
             setTimeout(()=>{ b.classList.remove('b-shake');
                 b.style.display="none"; cd.src=c.m.i; cd.style.display="block"; cd.classList.add('pop-up');
                 setTimeout(()=>{ cd.classList.remove('pop-up'); cd.classList.add('happy-jump'); },600);
-                if(!my.includes(c.m.id))my.push(c.m.id); msg(`Gotcha! ${c.m.n}!`);
-                document.getElementById('d-cnt').innerText=my.length; document.getElementById('e-img').style.opacity=0;
-                timer=setTimeout(()=>{l.classList.add('hidden');home();},3000);
+                
+                // --- 捕捉成功邏輯與獎狀檢查 ---
+                if(!my.includes(c.m.id)) my.push(c.m.id);
+                msg(`Gotcha! ${c.m.n}!`);
+                document.getElementById('d-cnt').innerText=`${my.length}/${DB.length}`; document.getElementById('e-img').style.opacity=0;
+                
+                timer=setTimeout(()=>{
+                    l.classList.add('hidden');
+                    // 檢查獎狀條件
+                    let normalCount = my.filter(id => !DB.find(p=>p.id===id).h).length;
+                    if(my.length === DB.length) {
+                        show('s-award-12'); // 終極獎狀
+                    } else if (normalCount === 9 && !awarded9 && !c.m.h) {
+                        awarded9 = true; // 確保只顯示一次
+                        show('s-award-9'); // 9隻普通獎狀
+                    } else {
+                        home();
+                    }
+                },3000);
+                // ---------------------------
             },1500);
         },500);
     },500);
