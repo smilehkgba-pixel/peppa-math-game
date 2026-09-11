@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Peppa Math Master Final Fix</title>
+<title>佩佩數學大師 DX</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
 <style>
 :root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; }
-* { box-sizing:border-box; image-rendering:pixelated; font-family:'Press Start 2P','Noto Sans TC',sans-serif; user-select:none; -webkit-tap-highlight-color: transparent; }
+* { box-sizing:border-box; image-rendering:pixelated; font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei','Noto Sans CJK TC',sans-serif; font-weight:700; letter-spacing:0; user-select:none; -webkit-tap-highlight-color: transparent; }
 body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
 .gameboy { width:100%; max-width:420px; height:98vh; background:var(--gb); border-radius:10px 10px 30px 30px; padding:12px; display:flex; flex-direction:column; box-shadow:inset -5px -5px 10px rgba(0,0,0,0.2); position:relative; }
 .screen-bezel { background:#555; padding:10px 10px 25px 10px; border-radius:5px 5px 20px 5px; flex:1; display:flex; flex-direction:column; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.5); }
@@ -17,15 +17,15 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 /* === 1. Start Screen === */
 #s-start { flex:1; background:linear-gradient(var(--blue) 50%, #7cfc00 50%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden;}
 .s-clouds { position:absolute; top:20px; left:0; width:200%; height:40px; background:url('data:image/svg+xml;utf8,<svg width="100" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M10 30 Q25 10 40 30 Q55 10 70 30 Q85 10 100 30" stroke="white" fill="white" opacity="0.6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>') repeat-x; animation: c-move 30s linear infinite; z-index:1; }
-.logo { font-size:13px; text-align:center; color:#fff; text-shadow:3px 3px 0 #000; line-height:1.6; margin-bottom:20px; z-index:2; }
-.peppa-start { width:120px; height:120px; animation:bounce 0.8s infinite steps(2); margin-bottom:20px; z-index:2; }
-.menu-btn { background:#fff; border:3px solid #000; padding:12px; width:85%; text-align:center; margin:8px auto 0 auto; cursor:pointer; font-size:10px; box-shadow:4px 4px 0 rgba(0,0,0,0.3); color:#000; z-index:2; display:block; }
+.logo { font-size:18px; text-align:center; color:#fff; text-shadow:2px 2px 0 #000; line-height:1.5; margin-bottom:16px; z-index:2; }
+.peppa-start { width:120px; height:120px; animation:bounce 0.8s infinite steps(2); margin-bottom:16px; z-index:2; }
+.menu-btn { background:#fff; border:3px solid #000; padding:12px; width:85%; text-align:center; margin:8px auto 0 auto; cursor:pointer; font-size:16px; box-shadow:4px 4px 0 rgba(0,0,0,0.3); color:#000; z-index:2; display:block; }
 .menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.3); }
 
 /* === 2. Topic Select === */
 #s-diff { flex:1; background:#2c3e50; padding:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-y:auto; }
-.diff-title { color:#fff; font-size:10px; margin-bottom:12px; text-align:center; text-shadow: 2px 2px 0 #000; line-height:1.6; }
-.diff-btn { width:100%; padding:12px 8px; margin-bottom:10px; border:3px solid #000; cursor:pointer; font-size:10px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; line-height:1.4; }
+.diff-title { color:#fff; font-size:18px; margin-bottom:14px; text-align:center; text-shadow: 2px 2px 0 #000; line-height:1.5; }
+.diff-btn { width:100%; padding:12px 8px; margin-bottom:10px; border:3px solid #000; cursor:pointer; font-size:18px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; line-height:1.4; }
 .diff-btn:active { transform:translate(2px,2px); box-shadow:none; }
 .zh, .diff-sub {
   font-family:'Noto Sans TC','Noto Sans CJK TC','PingFang HK','Microsoft JhengHei','Source Han Sans TC',sans-serif;
@@ -45,7 +45,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .bg-hills { position:absolute; bottom:38%; width:200%; height:60px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60"><path d="M0 60 C 30 20, 70 20, 100 60 C 130 30, 170 30, 200 60 Z" fill="%232ecc71"/><rect x="60" y="10" width="20" height="30" fill="%23f1c40f"/><path d="M55 10 L85 10 L70 0 Z" fill="%23e74c3c"/></svg>') repeat-x; animation: c-move 40s linear infinite; z-index:1; opacity:0.9; }
 .bg-ground { position:absolute; bottom:0; width:100%; height:40%; background:#70e070; border-top: 3px solid #5ec25e; z-index:2; }
 
-.hud { position:absolute; background:#fff; border:2px solid #000; padding:3px 5px; border-radius:4px; font-size:7px; z-index:10; }
+.hud { position:absolute; background:#fff; border:2px solid #000; padding:4px 6px; border-radius:4px; font-size:12px; z-index:10; }
 .hud-e { top:8px; left:8px; } .hud-p { bottom:25px; right:8px; text-align:right; }
 .hbar { width:60px; height:5px; border:1px solid #000; margin-top:2px; background:#ddd; }
 .hfill { height:100%; background:var(--green); transition:width 0.3s; }
@@ -53,8 +53,8 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .pos-p { position:absolute; bottom:5px; left:10px; width:110px; height:110px; z-index:5; }
 
 .ctrl { flex:1; background:#2c3e50; border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; min-height:0; }
-.msg { background:#fff; border:2px solid #000; padding:6px 8px; font-size:8px; min-height:40px; max-height:52px; margin-bottom:6px; color:#000; line-height:1.35; overflow:hidden; }
-.msg .zh { font-size:13px; line-height:1.35; }
+.msg { background:#fff; border:2px solid #000; padding:6px 8px; font-size:14px; min-height:42px; max-height:56px; margin-bottom:6px; color:#000; line-height:1.4; overflow:hidden; }
+.msg .zh { font-size:14px; line-height:1.4; }
 .grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:0 0 auto; min-height:96px; max-height:150px; height:38%; }
 /* 按鈕樣式 */
 .b-btn { background:#fff; border:2px solid #555; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:22px; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800; cursor:pointer; color:#000; box-shadow:0 3px 0 #888; transition: background 0.1s; padding:6px; line-height:1.2; text-align:center; image-rendering:auto; }
@@ -68,22 +68,23 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 #s-dex { flex:1; background:var(--red); display:flex; flex-direction:column; padding:10px; position: relative; }
 .d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; overflow-y:auto; flex:1; padding-bottom:5px; }
 .slot { background:#fff; border:2px solid #000; text-align:center; padding:5px; filter:grayscale(1) brightness(0.7); cursor: default; }
+.slot .nm { font-size:11px; margin-top:2px; line-height:1.3; }
 .slot.got { filter:grayscale(0) brightness(1); border-color:gold; cursor: pointer; transition: transform 0.1s; }
 .slot.got:active { transform: scale(0.95); }
 
 #dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-#dd-name { color:#fff; font-size:16px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; text-shadow: 2px 2px 0 #000; }
+#dd-name { color:#fff; font-size:20px; margin-bottom:20px; letter-spacing:0; text-shadow: 2px 2px 0 #000; }
 #dd-img { width:180px; height:180px; image-rendering:pixelated; margin-bottom:20px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
 
 #awards-menu { position:absolute; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index:15; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
-.aw-btn { width:100%; margin-bottom:15px; padding:15px; font-size:10px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; }
+.aw-btn { width:100%; margin-bottom:15px; padding:15px; font-size:16px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; line-height:1.45; }
 .aw-btn.unlocked { background:#f1c40f; color:#000; border-color:#000; animation: pulse 1s infinite; }
 
 .award-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; }
 #s-award-9 { background: #3498db; }
 #s-award-12 { background: linear-gradient(135deg, #f1c40f, #e67e22); }
 .award-img { width: 90%; max-width: 300px; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-.award-title { font-size: 14px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; }
+.award-title { font-size: 18px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; }
 
 #l-ball { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99; display:flex; flex-direction:column; justify-content:center; align-items:center; }
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
@@ -125,22 +126,22 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 
 <div id="s-start">
     <div class="s-clouds"></div>
-    <div class="logo">PEPPA vs POKÉMON<br><span style="color:#ffff00;font-size:10px;">MATH MASTER DX</span></div>
+    <div class="logo">佩佩 vs 寶可夢<br><span style="color:#ffff00;font-size:14px;">數學大師 DX</span></div>
     <svg class="peppa-start" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="11" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="11" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="12" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="12" height="9" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="6" width="4" height="4" fill="#ffb7b2"/><rect x="15" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="0.5"/><rect x="17" y="7" width="1" height="2" fill="#d48c94"/><rect x="6" y="6" width="2" height="2" fill="#fff"/><rect x="7" y="7" width="1" height="1" fill="#000"/><rect x="10" y="6" width="2" height="2" fill="#fff"/><rect x="11" y="7" width="1" height="1" fill="#000"/><rect x="5" y="9" width="3" height="3" fill="#ff8da1" opacity="0.7"/><path d="M4 13 h10 l2 6 h-14 z" fill="#e74c3c"/><path d="M4 13 h10 l2 6 h-14 z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="1" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="1" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="16" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="16" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="6" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="6" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="12" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="12" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="5" y="21" width="4" height="1" fill="#000"/><rect x="11" y="21" width="4" height="1" fill="#000"/></svg>
     <div style="text-align:center;width:100%;z-index:2">
-        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0/27</span></div>
-        <div class="menu-btn" style="background:#58d058" onclick="showDiff()">🌱 START GAME</div>
-        <div class="menu-btn" style="background:#3498db" onclick="dex()">📖 POKÉDEX</div>
+        <div style="font-size:14px;margin-bottom:6px;color:#000">圖鑑：<span id="d-cnt">0/27</span></div>
+        <div class="menu-btn" style="background:#58d058" onclick="showDiff()">🌱 開始遊戲</div>
+        <div class="menu-btn" style="background:#3498db" onclick="dex()">📖 精靈圖鑑</div>
     </div>
 </div>
 
 <div id="s-diff" class="hidden">
-    <div class="diff-title">SELECT TOPIC<span class="diff-sub" style="color:#fff;margin-top:8px;font-size:14px;text-shadow:none;">揀課題</span></div>
-    <div class="diff-btn d-easy" onclick="battle('easy')">EASY<span class="diff-sub">乘法 · 九因歌 0–10</span></div>
-    <div class="diff-btn d-hard" onclick="battle('hard')">HARD<span class="diff-sub">乘法 · 複合加減 · 神獸</span></div>
-    <div class="diff-btn d-div" onclick="battle('div')">DIVIDE<span class="diff-sub">除法 · 整除 · 餘數 · 因數</span></div>
-    <div class="diff-btn d-frac" onclick="battle('frac')">FRACTIONS<span class="diff-sub">分數 · 陰影 · 加減 · 比較</span></div>
-    <div class="menu-btn" onclick="home()">BACK</div>
+    <div class="diff-title">揀課題</div>
+    <div class="diff-btn d-easy" onclick="battle('easy')">乘法（簡易）<span class="diff-sub">九因歌 0–10</span></div>
+    <div class="diff-btn d-hard" onclick="battle('hard')">乘法（困難）<span class="diff-sub">複合加減 · 神獸出沒</span></div>
+    <div class="diff-btn d-div" onclick="battle('div')">除法<span class="diff-sub">整除 · 餘數 · 因數</span></div>
+    <div class="diff-btn d-frac" onclick="battle('frac')">分數<span class="diff-sub">陰影 · 加減 · 比較</span></div>
+    <div class="menu-btn" onclick="home()">返回</div>
 </div>
 
 <div id="s-battle" class="hidden">
@@ -149,7 +150,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
         <div class="hud hud-e"><div id="e-name">?</div><div class="hbar"><div class="hfill" id="e-hp"></div></div></div>
         <img id="e-img" class="pos-e" src="">
         <svg class="pos-p" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="13" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="13" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="14" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="14" height="9" fill="none" stroke="#000" stroke-width="0.5"/><path d="M4 13 h12 l2 6 h-16 z" fill="#e74c3c"/><path d="M4 13 h12 l2 6 h-16 z" fill="none" stroke="#000" stroke-width="0.5"/><path d="M16 16 c1 0 2 1 2 2 s-1 2-2 2" fill="none" stroke="#ff8da1" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="hud hud-p"><div>PEPPA</div><div class="hbar"><div class="hfill" id="p-hp"></div></div></div>
+        <div class="hud hud-p"><div>佩佩</div><div class="hbar"><div class="hfill" id="p-hp"></div></div></div>
     </div>
     <div class="ctrl">
         <div class="msg" id="msg">...</div>
@@ -160,38 +161,38 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 
 <div id="s-dex" class="hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #000; margin-bottom:5px; padding-bottom:5px;">
-        <div style="color:#fff;font-size:12px">POKÉDEX</div>
-        <div style="font-size:8px; background:#f1c40f; color:#000; padding:4px; border:2px solid #000; cursor:pointer;" onclick="openAwards()">🏆 AWARDS</div>
+        <div style="color:#fff;font-size:16px">精靈圖鑑</div>
+        <div style="font-size:14px; background:#f1c40f; color:#000; padding:6px 8px; border:2px solid #000; cursor:pointer;" onclick="openAwards()">🏆 獎項</div>
     </div>
     <div class="d-grid" id="d-grid"></div>
-    <div class="menu-btn" style="width:100%" onclick="home()">BACK</div>
+    <div class="menu-btn" style="width:100%" onclick="home()">返回</div>
     
     <div id="dex-detail" class="hidden">
         <div id="dd-name"></div>
         <img id="dd-img" src="">
-        <div class="menu-btn" style="width:80%" onclick="closeDetail()">CLOSE</div>
+        <div class="menu-btn" style="width:80%" onclick="closeDetail()">關閉</div>
     </div>
 
     <div id="awards-menu" class="hidden">
-        <div style="color:#fff; margin-bottom:20px;">ACHIEVEMENTS</div>
-        <div id="btn-aw-9" class="aw-btn" onclick="showAward(9)">ORDINARY AWARD<br>(LOCKED)</div>
-        <div id="btn-aw-12" class="aw-btn" onclick="showAward(12)">MASTER AWARD<br>(LOCKED)</div>
-        <div class="menu-btn" onclick="closeAwards()">CLOSE</div>
+        <div style="color:#fff; margin-bottom:20px; font-size:18px;">成就</div>
+        <div id="btn-aw-9" class="aw-btn" onclick="showAward(9)">普通精靈獎<br>（未解鎖）</div>
+        <div id="btn-aw-12" class="aw-btn" onclick="showAward(12)">數學大師獎<br>（未解鎖）</div>
+        <div class="menu-btn" onclick="closeAwards()">關閉</div>
     </div>
 </div>
 
 <div id="s-award-9" class="hidden award-screen">
-    <div class="award-title">CERTIFICATE OF ACHIEVEMENT</div>
+    <div class="award-title">成就獎狀</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2800.jpeg" class="award-img">
-    <div style="font-size:10px;color:#fff;margin-bottom:20px;">You caught all <span id="aw9-n">9</span> ordinary Pokémon!</div>
-    <div class="menu-btn" onclick="backToDex()">CONTINUE</div>
+    <div style="font-size:15px;color:#fff;margin-bottom:20px;line-height:1.5;">你捉齊晒 <span id="aw9-n">9</span> 隻普通精靈啦！</div>
+    <div class="menu-btn" onclick="backToDex()">繼續</div>
 </div>
 
 <div id="s-award-12" class="hidden award-screen">
-    <div class="award-title" style="color:gold;">ULTIMATE MATH MASTER</div>
+    <div class="award-title" style="color:gold;">終極數學大師</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2801.jpeg" class="award-img">
-    <div style="font-size:10px;color:#fff;margin-bottom:20px;">INCREDIBLE! You caught ALL <span id="aw12-n">12</span> Pokémon!</div>
-    <div class="menu-btn" onclick="backToDex()">CONTINUE</div>
+    <div style="font-size:15px;color:#fff;margin-bottom:20px;line-height:1.5;">太勁喇！你捉齊晒 <span id="aw12-n">12</span> 隻精靈！</div>
+    <div class="menu-btn" onclick="backToDex()">繼續</div>
 </div>
 
 <div id="l-ball" class="hidden"><div id="flash"></div>
@@ -206,34 +207,34 @@ const SPR="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/poke
 const pkm=(id,n,h)=>({id,n,i:SPR+id+".png",h});
 const DB=[
     // Ordinary (Easy mode)
-    pkm(1,"Bulbasaur",false),
-    pkm(4,"Charmander",false),
-    pkm(7,"Squirtle",false),
-    pkm(10,"Caterpie",false),
-    pkm(16,"Pidgey",false),
-    pkm(25,"Pikachu",false),
-    pkm(35,"Clefairy",false),
-    pkm(37,"Vulpix",false),
-    pkm(39,"Jigglypuff",false),
-    pkm(43,"Oddish",false),
-    pkm(52,"Meowth",false),
-    pkm(54,"Psyduck",false),
-    pkm(58,"Growlithe",false),
-    pkm(66,"Machop",false),
-    pkm(104,"Cubone",false),
-    pkm(129,"Magikarp",false),
-    pkm(133,"Eevee",false),
-    pkm(143,"Snorlax",false),
-    pkm(175,"Togepi",false),
-    pkm(183,"Marill",false),
+    pkm(1,"妙蛙種子",false),
+    pkm(4,"小火龍",false),
+    pkm(7,"傑尼龜",false),
+    pkm(10,"綠毛蟲",false),
+    pkm(16,"波波",false),
+    pkm(25,"皮卡丘",false),
+    pkm(35,"皮皮",false),
+    pkm(37,"六尾",false),
+    pkm(39,"胖丁",false),
+    pkm(43,"走路草",false),
+    pkm(52,"喵喵",false),
+    pkm(54,"可達鴨",false),
+    pkm(58,"卡蒂狗",false),
+    pkm(66,"腕力",false),
+    pkm(104,"卡拉卡拉",false),
+    pkm(129,"鯉魚王",false),
+    pkm(133,"伊布",false),
+    pkm(143,"卡比獸",false),
+    pkm(175,"波克比",false),
+    pkm(183,"瑪力露",false),
     // Legendary (Hard mode)
-    pkm(144,"Articuno",true),
-    pkm(145,"Zapdos",true),
-    pkm(146,"Moltres",true),
-    pkm(150,"Mewtwo",true),
-    pkm(151,"Mew",true),
-    pkm(249,"Lugia",true),
-    pkm(250,"Ho-Oh",true)
+    pkm(144,"急凍鳥",true),
+    pkm(145,"閃電鳥",true),
+    pkm(146,"火焰鳥",true),
+    pkm(150,"超夢",true),
+    pkm(151,"夢幻",true),
+    pkm(249,"洛奇亞",true),
+    pkm(250,"鳳王",true)
 ];
 
 const SAVE_KEY="peppa-math-progress";
@@ -284,11 +285,11 @@ function openAwards() {
     let b9 = document.getElementById('btn-aw-9');
     let b12 = document.getElementById('btn-aw-12');
     
-    if(allOrdinaryCaught()) { b9.innerHTML="ORDINARY AWARD<br>(VIEW)"; b9.classList.add('unlocked'); }
-    else { b9.innerHTML="ORDINARY AWARD<br>(LOCKED)"; b9.classList.remove('unlocked'); }
+    if(allOrdinaryCaught()) { b9.innerHTML="普通精靈獎<br>（睇獎狀）"; b9.classList.add('unlocked'); }
+    else { b9.innerHTML="普通精靈獎<br>（未解鎖）"; b9.classList.remove('unlocked'); }
     
-    if(allCaught()) { b12.innerHTML="MASTER AWARD<br>(VIEW)"; b12.classList.add('unlocked'); }
-    else { b12.innerHTML="MASTER AWARD<br>(LOCKED)"; b12.classList.remove('unlocked'); }
+    if(allCaught()) { b12.innerHTML="數學大師獎<br>（睇獎狀）"; b12.classList.add('unlocked'); }
+    else { b12.innerHTML="數學大師獎<br>（未解鎖）"; b12.classList.remove('unlocked'); }
     
     document.getElementById('awards-menu').classList.remove('hidden');
 }
@@ -326,10 +327,10 @@ function battle(diff){
     document.getElementById('e-name').innerText=c.m.n; 
     let img = document.getElementById('e-img'); img.src=c.m.i; img.style.opacity=1; img.classList.remove('shiny');
     
-    const tag = c.diff==='div' ? ' [DIVIDE]' : c.diff==='frac' ? ' [FRACTIONS]' : '';
-    if(Math.random() < 0.1) { img.classList.add('shiny'); msg(`A Shiny ${c.m.n} appeared!${tag}`); } 
-    else if(c.m.h) { msg(`LEGENDARY ${c.m.n} appeared!${tag}`); }
-    else { msg(`Wild ${c.m.n} appeared!${tag}`); }
+    const tag = c.diff==='div' ? '（除法）' : c.diff==='frac' ? '（分數）' : '';
+    if(Math.random() < 0.1) { img.classList.add('shiny'); msg(`閃光嘅${c.m.n}出現咗！${tag}`); } 
+    else if(c.m.h) { msg(`傳說精靈 ${c.m.n} 出現咗！${tag}`); }
+    else { msg(`野生嘅${c.m.n}出現咗！${tag}`); }
     
     document.getElementById('q-area').innerText = ""; 
     document.getElementById('q-area').className = "q-text";
@@ -340,14 +341,14 @@ function battle(diff){
 
 function turn(){
     c.lock = false;
-    if(c.ph<=0){msg("Peppa fainted..."); timer=setTimeout(home,2000); return;}
+    if(c.ph<=0){msg("佩佩倒下咗…"); timer=setTimeout(home,2000); return;}
     
     if(c.eh < 50 && !c.cap){
-        c.cap=true;msg("It's weak! Catch it!");
+        c.cap=true;msg("佢好弱！快啲捉住佢！");
         document.getElementById('q-area').innerText = "";
-        document.getElementById('act').innerHTML=`<div class="b-btn catch" style="grid-column:span 2" onclick="goCatch()">🔴 THROW BALL!</div>`;
+        document.getElementById('act').innerHTML=`<div class="b-btn catch zh-btn" style="grid-column:span 2" onclick="goCatch()">🔴 扔精靈球！</div>`;
     }else{ 
-        msg("Peppa attacks!"); 
+        msg("佩佩出招！"); 
         genQ(); 
     }
 }
@@ -450,7 +451,7 @@ function genMulQ(hard){
         }
         extra=[p1,p2,ans+2,Math.abs(ans-2)];
     }
-    return {ans:String(ans), opts:numOpts(ans,extra), html:txt, visual:false, hint:`Wrong! Answer: ${ans}`};
+    return {ans:String(ans), opts:numOpts(ans,extra), html:txt, visual:false, hint:`錯喇！答案係 ${ans}`};
 }
 
 function factorsOf(n){
@@ -587,7 +588,7 @@ function genQ() {
     else q = genMulQ(c.diff === 'hard');
     c.a = q.ans;
     c.opts = q.opts;
-    c.hint = q.hint || `Wrong! Answer: ${q.ans}`;
+    c.hint = q.hint || `錯喇！答案係 ${q.ans}`;
     setQ(q.html, q.visual);
     document.getElementById('act').innerHTML = q.opts.map((v,i)=>
         `<div class="b-btn${/[\u4e00-\u9fff]/.test(v)?' zh-btn':''}" onclick="atk(${i}, this)">${esc(v)}</div>`
@@ -602,17 +603,17 @@ function atk(i, btn){
     let qArea = document.getElementById('q-area');
     if(v===c.a){
         btn.classList.add('btn-correct');
-        let d=30; c.eh-=d; msg("Hit!");
+        let d=30; c.eh-=d; msg("打中！");
         qArea.classList.add('anim-correct');
         document.querySelector('.pos-p').classList.add('atk');setTimeout(()=>document.querySelector('.pos-p').classList.remove('atk'),300);
         let e=document.getElementById('e-img');e.classList.add('dmg');setTimeout(()=>e.classList.remove('dmg'),400);
         uh(); 
-        if(c.eh<=0){msg("Enemy fainted!"); document.getElementById('e-img').style.opacity=0; timer=setTimeout(home,2000);} 
+        if(c.eh<=0){msg("對手倒下咗！"); document.getElementById('e-img').style.opacity=0; timer=setTimeout(home,2000);} 
         else { timer=setTimeout(turn,1500); }
     } else {
         btn.classList.add('btn-wrong');
         let d=25; c.ph-=d; 
-        msg(c.hint || `Wrong! Answer: ${c.a}`);
+        msg(c.hint || `錯喇！答案係 ${c.a}`);
         qArea.classList.add('anim-wrong');
         uh();
         if(c.eh>0) timer=setTimeout(turn, 2000);
@@ -635,7 +636,7 @@ function goCatch(){
                 
                 if(!my.includes(c.m.id)) my.push(c.m.id);
                 saveProgress();
-                msg(`Gotcha! ${c.m.n}!`);
+                msg(`捉到喇！${c.m.n}！`);
                 updateDexCount(); document.getElementById('e-img').style.opacity=0;
                 
                 timer=setTimeout(()=>{
@@ -656,7 +657,7 @@ function rd(){
     let h=''; DB.forEach(d=>{
         let got=my.includes(d.id);
         let clickAction = got ? `onclick="showDetail(${d.id})"` : '';
-        h+=`<div class="slot ${got?'got':''}" ${clickAction}><img src="${d.i}" style="width:30px"><br><div style="font-size:6px;margin-top:2px">${got?d.n:'???'}</div></div>`
+        h+=`<div class="slot ${got?'got':''}" ${clickAction}><img src="${d.i}" style="width:30px"><br><div class="nm">${got?d.n:'？？？'}</div></div>`
     });
     document.getElementById('d-grid').innerHTML=h;
 }
