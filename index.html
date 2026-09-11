@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Peppa Math Master Final Fix</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
 <style>
 :root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; }
-* { box-sizing:border-box; image-rendering:pixelated; font-family:'Press Start 2P',cursive; user-select:none; -webkit-tap-highlight-color: transparent; }
+* { box-sizing:border-box; image-rendering:pixelated; font-family:'Press Start 2P','Noto Sans TC',sans-serif; user-select:none; -webkit-tap-highlight-color: transparent; }
 body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
 .gameboy { width:100%; max-width:420px; height:98vh; background:var(--gb); border-radius:10px 10px 30px 30px; padding:12px; display:flex; flex-direction:column; box-shadow:inset -5px -5px 10px rgba(0,0,0,0.2); position:relative; }
 .screen-bezel { background:#555; padding:10px 10px 25px 10px; border-radius:5px 5px 20px 5px; flex:1; display:flex; flex-direction:column; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.5); }
@@ -22,13 +22,16 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .menu-btn { background:#fff; border:3px solid #000; padding:12px; width:85%; text-align:center; margin:8px auto 0 auto; cursor:pointer; font-size:10px; box-shadow:4px 4px 0 rgba(0,0,0,0.3); color:#000; z-index:2; display:block; }
 .menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.3); }
 
-/* === 2. Difficulty Select === */
-#s-diff { flex:1; background:#2c3e50; padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.diff-title { color:#fff; font-size:12px; margin-bottom:30px; text-align:center; text-shadow: 2px 2px 0 #000; }
-.diff-btn { width:100%; padding:20px 10px; margin-bottom:20px; border:3px solid #000; cursor:pointer; font-size:12px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; }
+/* === 2. Topic Select === */
+#s-diff { flex:1; background:#2c3e50; padding:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-y:auto; }
+.diff-title { color:#fff; font-size:10px; margin-bottom:12px; text-align:center; text-shadow: 2px 2px 0 #000; line-height:1.6; }
+.diff-btn { width:100%; padding:12px 8px; margin-bottom:10px; border:3px solid #000; cursor:pointer; font-size:10px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; line-height:1.4; }
 .diff-btn:active { transform:translate(2px,2px); box-shadow:none; }
-.d-easy { background:#2ecc71; } 
+.diff-sub { display:block; font-size:8px; margin-top:6px; font-family:'Noto Sans TC',sans-serif; font-weight:700; letter-spacing:0; }
+.d-easy { background:#2ecc71; }
 .d-hard { background:#e74c3c; color:#fff; animation: border-pulse 2s infinite; }
+.d-div { background:#3498db; color:#fff; }
+.d-frac { background:#9b59b6; color:#fff; }
 @keyframes border-pulse { 0% {box-shadow: 4px 4px 0 #000;} 50% {box-shadow: 4px 4px 0 #ffff00;} 100% {box-shadow: 4px 4px 0 #000;} }
 
 /* === 3. Battle Scene === */
@@ -45,11 +48,11 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .pos-e { position:absolute; top:20px; right:5px; width:170px; height:170px; animation:float 2s infinite ease-in-out; z-index:5; }
 .pos-p { position:absolute; bottom:5px; left:10px; width:110px; height:110px; z-index:5; }
 
-.ctrl { flex:1; background:#2c3e50; border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; }
-.msg { background:#fff; border:2px solid #000; padding:8px; font-size:9px; height:40px; margin-bottom:8px; color:#000; line-height:1.3; }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:1; }
+.ctrl { flex:1; background:#2c3e50; border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; min-height:0; }
+.msg { background:#fff; border:2px solid #000; padding:6px 8px; font-size:8px; min-height:40px; max-height:52px; margin-bottom:6px; color:#000; line-height:1.35; overflow:hidden; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:1; min-height:72px; }
 /* 按鈕樣式 */
-.b-btn { background:#fff; border:2px solid #555; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer; color:#000; box-shadow:0 3px 0 #888; transition: background 0.1s; }
+.b-btn { background:#fff; border:2px solid #555; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; color:#000; box-shadow:0 3px 0 #888; transition: background 0.1s; padding:4px; line-height:1.3; text-align:center; }
 .b-btn:active { transform:translateY(3px); box-shadow:none; }
 .btn-correct { background: #2ecc71 !important; color: #fff !important; border-color: #27ae60 !important; }
 .btn-wrong { background: #e74c3c !important; color: #fff !important; border-color: #c0392b !important; }
@@ -80,7 +83,18 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
 #c-display { width:180px; height:180px; display:none; z-index:102; filter:drop-shadow(0 0 10px gold); }
 
-.q-text { font-size: 13px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 5px; text-align: center; }
+.q-text { font-size: 12px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 4px; text-align: center; line-height:1.4; }
+.q-text .zh { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:14px; letter-spacing:0; text-shadow:1px 1px 0 #000; }
+.q-text.q-visual { font-size:10px; }
+.q-text.q-visual .zh { font-size:13px; }
+.frac-pizza { width:68px; height:68px; display:block; margin:2px auto; }
+.frac-bar { display:flex; width:150px; height:26px; margin:6px auto 4px auto; border:2px solid #000; background:#fff; }
+.frac-cell { flex:1; background:#fff6d5; border-right:2px solid #000; }
+.frac-cell:last-child { border-right:none; }
+.frac-cell.on { background:#e74c3c; }
+.frac-blocks { display:flex; gap:3px; justify-content:center; margin:6px auto 4px auto; }
+.frac-block { width:18px; height:18px; border:2px solid #000; background:#fff6d5; }
+.frac-block.on { background:#3498db; }
 .anim-correct { color: #2ecc71; animation: bounce-text 0.3s; text-shadow: 2px 2px 0 #000; }
 .anim-wrong { color: #e74c3c; animation: shake-text 0.3s; text-shadow: 2px 2px 0 #000; }
 
@@ -115,9 +129,11 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 </div>
 
 <div id="s-diff" class="hidden">
-    <div class="diff-title">SELECT DIFFICULTY</div>
-    <div class="diff-btn d-easy" onclick="battle('easy')">EASY</div>
-    <div class="diff-btn d-hard" onclick="battle('hard')">HARD<br><span style="font-size:6px; color:#ff0;">✨ 隱藏神獸出沒! ✨</span></div>
+    <div class="diff-title">揀課題<br><span style="font-size:7px;opacity:.85">SELECT TOPIC</span></div>
+    <div class="diff-btn d-easy" onclick="battle('easy')">乘法 EASY<span class="diff-sub">九因歌 0–10</span></div>
+    <div class="diff-btn d-hard" onclick="battle('hard')">乘法 HARD<span class="diff-sub">✨ 複合加減 · 隱藏神獸 ✨</span></div>
+    <div class="diff-btn d-div" onclick="battle('div')">除法 DIVIDE<span class="diff-sub">整除 · 餘數 · 因數</span></div>
+    <div class="diff-btn d-frac" onclick="battle('frac')">分數 FRACTIONS<span class="diff-sub">陰影 · 加減 · 比較</span></div>
     <div class="menu-btn" onclick="home()">BACK</div>
 </div>
 
@@ -278,31 +294,40 @@ function showAward(type) {
 }
 function backToDex() { show('s-dex'); }
 
+function encounterPool(mode){
+    const uncollectedIds = DB.map(p=>p.id).filter(id => !my.includes(id));
+    const uncollectedLeg = DB.filter(p => p.h && uncollectedIds.includes(p.id));
+    const uncollectedNorm = DB.filter(p => !p.h && uncollectedIds.includes(p.id));
+    const norms = uncollectedNorm.length > 0 ? uncollectedNorm : DB.filter(p => !p.h);
+    // Hard multiply: still the legendary hunt.
+    // Division / Fractions: P3 challenge modes — 35% legendary if any remain uncaught.
+    if (mode === 'hard') {
+        return uncollectedLeg.length > 0 ? uncollectedLeg : DB;
+    }
+    if ((mode === 'div' || mode === 'frac') && uncollectedLeg.length > 0 && Math.random() < 0.35) {
+        return uncollectedLeg;
+    }
+    return norms;
+}
+
 function battle(diff){
     if(timer) clearTimeout(timer);
-    c = { m:null, eh:150, ph:100, cap:false, diff:diff||'easy', lock:false };
+    c = { m:null, eh:150, ph:100, cap:false, diff:diff||'easy', lock:false, a:'', opts:[], hint:'' };
     
-    let uncollectedIds = DB.map(p=>p.id).filter(id => !my.includes(id));
-    let pool;
-    if (c.diff === 'hard') {
-        let uncollectedLegendaries = DB.filter(p => p.h && uncollectedIds.includes(p.id));
-        pool = uncollectedLegendaries.length > 0 ? uncollectedLegendaries : DB;
-    } else {
-        let uncollectedNormals = DB.filter(p => !p.h && uncollectedIds.includes(p.id));
-        pool = uncollectedNormals.length > 0 ? uncollectedNormals : DB.filter(p => !p.h);
-    }
-    
+    const pool = encounterPool(c.diff);
     c.m = pool[Math.floor(Math.random()*pool.length)]; 
     
     document.getElementById('e-name').innerText=c.m.n; 
     let img = document.getElementById('e-img'); img.src=c.m.i; img.style.opacity=1; img.classList.remove('shiny');
     
-    if(Math.random() < 0.1) { img.classList.add('shiny'); msg(`A Shiny ${c.m.n} appeared!`); } 
-    else if(c.m.h) { msg(`LEGENDARY ${c.m.n} appeared!`); }
-    else { msg(`Wild ${c.m.n} appeared!`); }
+    const tag = c.diff==='div' ? ' 除法' : c.diff==='frac' ? ' 分數' : '';
+    if(Math.random() < 0.1) { img.classList.add('shiny'); msg(`A Shiny ${c.m.n} appeared!${tag}`); } 
+    else if(c.m.h) { msg(`LEGENDARY ${c.m.n} appeared!${tag}`); }
+    else { msg(`Wild ${c.m.n} appeared!${tag}`); }
     
     document.getElementById('q-area').innerText = ""; 
-    document.getElementById('act').innerHTML = ""; // Clear buttons first
+    document.getElementById('q-area').className = "q-text";
+    document.getElementById('act').innerHTML = "";
     
     uh(); show('s-battle'); timer = setTimeout(turn,1500);
 }
@@ -321,46 +346,252 @@ function turn(){
     }
 }
 
-function genQ() {
-    let n1, n2, txt, ans;
-    if (c.diff === 'easy') {
-        n1 = Math.floor(Math.random()*11); 
-        n2 = Math.floor(Math.random()*11);
-        ans = n1 * n2;
-        txt = `${n1} x ${n2} = ?`;
-    } else {
-        let a = Math.floor(Math.random()*11);
-        let b = Math.floor(Math.random()*11);
-        let d = Math.floor(Math.random()*6); 
-        let e = Math.floor(Math.random()*6);
-        let p1 = a*b, p2 = d*e;
-        
-        if (Math.random() > 0.5) {
-            ans = p1 + p2; txt = `${a}x${b} + ${d}x${e} = ?`;
-        } else {
-            if (p1 < p2) { [p1,p2]=[p2,p1]; [a,b,d,e]=[d,e,a,b]; }
-            ans = p1 - p2; txt = `${a}x${b} - ${d}x${e} = ?`;
-        }
-    }
-    c.a = ans;
-    let qArea = document.getElementById('q-area');
-    qArea.innerText = txt;
-    qArea.className = "q-text";
-
-    let h='', o=new Set([c.a]);
-    while(o.size<4) {
-        let f = c.a + Math.floor(Math.random()*10-5)*2;
-        if(f>=0 && f!==c.a) o.add(f); else o.add(c.a+1);
-    }
-    Array.from(o).sort(()=>Math.random()-.5).forEach(v=>{
-        h+=`<div class="b-btn" onclick="atk(${v}, this)">${v}</div>`
+function ri(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function shuffle(arr){
+    const a=arr.slice();
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+    return a;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function zh(s){return `<span class="zh">${s}</span>`;}
+function setQ(html, visual){
+    const q=document.getElementById('q-area');
+    q.className = visual ? 'q-text q-visual' : 'q-text';
+    q.innerHTML = html;
+}
+function numOpts(ans, extra){
+    const keep=String(ans);
+    const seen=new Set([keep]);
+    const pool=[];
+    (extra||[]).forEach(x=>{
+        const s=String(x);
+        if(!seen.has(s)){ seen.add(s); pool.push(s); }
     });
-    document.getElementById('act').innerHTML=h;
+    let g=0;
+    while(pool.length<3 && g++<80){
+        let f=Number(ans)+(Math.floor(Math.random()*11)-5);
+        if(f===Number(ans) || f<0) continue;
+        const s=String(f);
+        if(!seen.has(s)){ seen.add(s); pool.push(s); }
+    }
+    let k=1;
+    while(pool.length<3){
+        const s=String(Number(ans)+k);
+        if(!seen.has(s)){ seen.add(s); pool.push(s); }
+        k++;
+    }
+    return shuffle([keep, ...pool.slice(0,3)]);
+}
+function strOpts(ans, extras){
+    const keep=String(ans);
+    const seen=new Set([keep]);
+    const pool=[];
+    const add=x=>{ const s=String(x); if(!seen.has(s)){ seen.add(s); pool.push(s); } };
+    (extras||[]).forEach(add);
+    ['1/6','2/5','3/8','1/8','2/3','5','0','7','3'].forEach(add);
+    return shuffle([keep, ...pool.slice(0,3)]);
+}
+function polar(cx,cy,r,deg){
+    const a=(deg-90)*Math.PI/180;
+    return [cx+r*Math.cos(a), cy+r*Math.sin(a)];
+}
+function pizzaSVG(num,den){
+    const r=40,cx=50,cy=50;
+    let d='';
+    for(let i=0;i<den;i++){
+        const a0=(i/den)*360, a1=((i+1)/den)*360;
+        const [x0,y0]=polar(cx,cy,r,a0);
+        const [x1,y1]=polar(cx,cy,r,a1);
+        const large=(a1-a0)>180?1:0;
+        const fill=i<num?'#e74c3c':'#fff6d5';
+        d+=`<path d="M${cx} ${cy} L${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z" fill="${fill}" stroke="#222" stroke-width="1.2"/>`;
+    }
+    return `<svg class="frac-pizza" viewBox="0 0 100 100" aria-hidden="true">${d}<circle cx="50" cy="50" r="40" fill="none" stroke="#000" stroke-width="2.5"/></svg>`;
+}
+function barHTML(num,den){
+    let c='';
+    for(let i=0;i<den;i++) c+=`<i class="frac-cell${i<num?' on':''}"></i>`;
+    return `<div class="frac-bar" aria-hidden="true">${c}</div>`;
+}
+function blocksHTML(num,den){
+    let c='';
+    for(let i=0;i<den;i++) c+=`<i class="frac-block${i<num?' on':''}"></i>`;
+    return `<div class="frac-blocks" aria-hidden="true">${c}</div>`;
+}
+function fracVis(num,den){
+    const kind=pick(['pizza','bar','blocks']);
+    if(kind==='bar') return barHTML(num,den);
+    if(kind==='blocks') return blocksHTML(num,den);
+    return pizzaSVG(num,den);
 }
 
-function atk(v, btn){
+function genMulQ(hard){
+    let txt, ans, extra;
+    if(!hard){
+        const n1=ri(0,10), n2=ri(0,10);
+        ans=n1*n2;
+        txt=`${n1} × ${n2} = ?`;
+        extra=[n1+n2, Math.abs(n1-n2), n1*Math.max(0,n2-1), n1*(n2+1)];
+    }else{
+        let a=ri(0,10), b=ri(0,10), d=ri(0,5), e=ri(0,5);
+        let p1=a*b, p2=d*e;
+        if(Math.random()>0.5){
+            ans=p1+p2; txt=`${a}×${b} + ${d}×${e} = ?`;
+        }else{
+            if(p1<p2){ [p1,p2]=[p2,p1]; [a,b,d,e]=[d,e,a,b]; }
+            ans=p1-p2; txt=`${a}×${b} - ${d}×${e} = ?`;
+        }
+        extra=[p1,p2,ans+2,Math.abs(ans-2)];
+    }
+    return {ans:String(ans), opts:numOpts(ans,extra), html:txt, visual:false, hint:`Wrong! Answer: ${ans}`};
+}
+
+function factorsOf(n){
+    const f=[];
+    for(let i=1;i<=n;i++) if(n%i===0) f.push(i);
+    return f;
+}
+
+function genDivQ(){
+    const kind=pick(['exact','remain','factor','divides']);
+    if(kind==='exact'){
+        const div=ri(2,12);
+        let quo=ri(2,12);
+        while(div*quo>100) quo--;
+        const dividend=div*quo;
+        const ans=String(quo);
+        return {
+            ans, opts:numOpts(quo,[div, dividend, quo+1, quo-1, Math.floor(dividend/Math.max(2,div-1))]),
+            html:`${dividend} ÷ ${div} = ?`, visual:false,
+            hint:`錯！${div} × ${quo} = ${dividend}，所以 ${dividend} ÷ ${div} = ${quo}`
+        };
+    }
+    if(kind==='remain'){
+        const div=ri(2,12);
+        let quo=ri(2,8);
+        const rem=ri(1,div-1);
+        let dividend=div*quo+rem;
+        if(dividend>100){ quo=Math.max(2,Math.floor((100-rem)/div)); dividend=div*quo+rem; }
+        const ans=String(rem);
+        return {
+            ans, opts:numOpts(rem,[quo, div, rem+1, Math.max(0,rem-1), dividend%Math.max(2,div-1)]),
+            html:zh(`${dividend} ÷ ${div} 嘅餘數 = ？`), visual:false,
+            hint:`錯！${div} × ${quo} = ${div*quo}，餘 ${rem}`
+        };
+    }
+    if(kind==='factor'){
+        const n=pick([12,16,18,20,24,28,30,36,42,48]);
+        const fac=factorsOf(n);
+        const proper=fac.filter(f=>f!==1 && f!==n);
+        const ans=String(pick(proper.length?proper:fac.filter(f=>f!==1)));
+        const extra=[];
+        for(let i=2;i<=n && extra.length<6;i++){
+            if(!fac.includes(i)) extra.push(String(i));
+        }
+        if(extra.length<3) extra.push(String(n+1), String(n+2), '9');
+        return {
+            ans, opts:strOpts(ans, extra),
+            html:zh(`邊個係 ${n} 嘅因數？`), visual:false,
+            hint:`錯！${ans} × ${n/Number(ans)} = ${n}，所以 ${ans} 係因數`
+        };
+    }
+    const n=pick([12,18,24,30,36,42,48,60]);
+    const fac=factorsOf(n).filter(f=>f>=2 && f<=12 && f<n);
+    const ans=String(pick(fac.length?fac:[2]));
+    const extra=[];
+    for(let i=2;i<=12 && extra.length<6;i++){
+        if(n%i!==0) extra.push(String(i));
+    }
+    return {
+        ans, opts:strOpts(ans, extra),
+        html:zh(`邊個可以整除 ${n}？`), visual:false,
+        hint:`錯！${n} ÷ ${ans} = ${n/Number(ans)}（${ans} × ${n/Number(ans)} = ${n}）`
+    };
+}
+
+function genFracQ(){
+    const dens=[2,3,4,5,6,8,10];
+    const kind=pick(['visual','addsub','equiv','cmp']);
+    if(kind==='visual'){
+        const den=pick(dens);
+        const num=ri(1,den-1);
+        const ans=`${num}/${den}`;
+        const extra=[`${Math.max(1,num-1)}/${den}`, `${Math.min(den-1,num+1)}/${den}`, `${num}/${pick(dens.filter(d=>d!==den))}`, `${den}/${num===0?den:num}`].filter(x=>x!==ans);
+        if(num!==1) extra.push(`1/${den}`);
+        return {
+            ans, opts:strOpts(ans, extra),
+            html:fracVis(num,den)+zh('陰影係邊個分數？'), visual:true,
+            hint:`錯！答案係 ${ans}`
+        };
+    }
+    if(kind==='addsub'){
+        const den=pick([4,5,6,8,10]);
+        if(Math.random()>0.45){
+            const a=ri(1,den-1);
+            const b=ri(1,den-a);
+            const sum=a+b;
+            const ans=sum===den?'1':`${sum}/${den}`;
+            const extra=[`${a}/${den}`, `${b}/${den}`, `${Math.max(1,sum-1)}/${den}`, sum===den?`${den}/${den}`:`${sum+1}/${den}`, '1'].filter(x=>x!==ans);
+            return {
+                ans, opts:strOpts(ans, extra),
+                html:`${a}/${den} + ${b}/${den} = ?`, visual:false,
+                hint:`錯！分母不變，分子 ${a}+${b}=${sum} → ${ans}`
+            };
+        }
+        const a=ri(2,den);
+        const b=ri(1,a-1);
+        const diff=a-b;
+        const ans=diff===0?'0':`${diff}/${den}`;
+        const extra=[`${a}/${den}`, `${b}/${den}`, `${Math.max(1,diff+1)}/${den}`, `${diff}/${Math.max(2,den-1)}`].filter(x=>x!==ans);
+        return {
+            ans, opts:strOpts(ans, extra),
+            html:`${a}/${den} − ${b}/${den} = ?`, visual:false,
+            hint:`錯！分母不變，分子 ${a}−${b}=${diff} → ${ans}`
+        };
+    }
+    if(kind==='equiv'){
+        const pairs=[[1,2,2,4],[1,2,3,6],[1,2,4,8],[1,2,5,10],[1,3,2,6],[1,4,2,8],[2,4,1,2],[3,6,1,2],[2,6,1,3],[2,8,1,4],[4,8,1,2],[6,8,3,4],[4,6,2,3],[2,10,1,5],[4,10,2,5],[5,10,1,2]];
+        const [a,b,c,d]=pick(pairs);
+        const ans=`${c}/${d}`;
+        const extra=[`${a}/${d}`, `${c}/${b}`, `${a+1}/${b}`, `${c}/${d+1||2}`, '1/1', `${b}/${a}`].filter(x=>x!==ans && x!==`${a}/${b}`);
+        return {
+            ans, opts:strOpts(ans, extra),
+            html:zh(`邊個同 ${a}/${b} 相等？`), visual:false,
+            hint:`錯！${a}/${b} = ${ans}`
+        };
+    }
+    const pairs=[[1,2,1,3],[1,2,1,4],[2,3,1,2],[3,4,2,4],[1,4,1,5],[2,5,1,2],[3,8,1,2],[2,3,3,4],[1,6,1,3],[3,5,1,2]];
+    const [a,b,c,d]=pick(pairs);
+    const left=a/b, right=c/d;
+    const bigger=left>right?`${a}/${b}`:`${c}/${d}`;
+    const smaller=left>right?`${c}/${d}`:`${a}/${b}`;
+    const extra=[smaller,'一樣大', `${Math.min(a,c)}/${Math.max(b,d)}`];
+    return {
+        ans:bigger, opts:strOpts(bigger, extra),
+        html:zh(`邊個大啲？ ${a}/${b} 定 ${c}/${d}？`), visual:false,
+        hint:`錯！${bigger} 大過 ${smaller}`
+    };
+}
+
+function genQ() {
+    let q;
+    if (c.diff === 'div') q = genDivQ();
+    else if (c.diff === 'frac') q = genFracQ();
+    else q = genMulQ(c.diff === 'hard');
+    c.a = q.ans;
+    c.opts = q.opts;
+    c.hint = q.hint || `Wrong! Answer: ${q.ans}`;
+    setQ(q.html, q.visual);
+    document.getElementById('act').innerHTML = q.opts.map((v,i)=>
+        `<div class="b-btn" onclick="atk(${i}, this)">${esc(v)}</div>`
+    ).join('');
+}
+
+function atk(i, btn){
     if(c.lock) return;
     c.lock = true;
+    const v = c.opts[i];
 
     let qArea = document.getElementById('q-area');
     if(v===c.a){
@@ -375,7 +606,7 @@ function atk(v, btn){
     } else {
         btn.classList.add('btn-wrong');
         let d=25; c.ph-=d; 
-        msg(`Wrong! Answer: ${c.a}`);
+        msg(c.hint || `Wrong! Answer: ${c.a}`);
         qArea.classList.add('anim-wrong');
         uh();
         if(c.eh>0) timer=setTimeout(turn, 2000);
