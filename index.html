@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-HK" xmlns:xlink="http://www.w3.org/1999/xlink">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -12,7 +12,8 @@
   --ink:#111; --lcd:#f3f0dc; --panel:#2c3e50;
 }
 * { box-sizing:border-box; font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei','Noto Sans CJK TC',sans-serif; font-weight:700; letter-spacing:0; user-select:none; -webkit-tap-highlight-color:transparent; }
-img, svg { image-rendering:pixelated; image-rendering:crisp-edges; }
+img, .peppa-start, .pos-p, #e-img, #dd-img, #c-display { image-rendering:pixelated; image-rendering:crisp-edges; }
+.svg-defs { position:absolute; width:0; height:0; overflow:hidden; }
 body { background:var(--bg); height:100vh; height:100dvh; margin:0; padding:6px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
 
 /* Yellow DMG shell — plastic bevel, not glass */
@@ -55,26 +56,41 @@ body { background:var(--bg); height:100vh; height:100dvh; margin:0; padding:6px;
   box-shadow:inset 0 2px 6px rgba(0,0,0,0.2);
 }
 .screen::after {
-  content:""; position:absolute; top:0; left:0; right:0; height:22%;
-  pointer-events:none; z-index:12;
-  background:linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0));
+  content:""; position:absolute; top:0; left:0; right:0; height:18%;
+  pointer-events:none; z-index:1;
+  background:linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0));
 }
 .hidden { display:none !important; }
 
-/* === 1. Start Screen === */
-#s-start { flex:1; background:linear-gradient(var(--blue) 50%, #7cfc00 50%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:10px 8px; }
-.s-clouds { position:absolute; top:16px; left:0; width:200%; height:40px; background:url('data:image/svg+xml;utf8,<svg width="100" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M10 30 Q25 10 40 30 Q55 10 70 30 Q85 10 100 30" stroke="white" fill="white" opacity="0.6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>') repeat-x; animation: c-move 30s linear infinite; z-index:1; }
-.logo { font-size:18px; text-align:center; color:#fff; text-shadow:2px 2px 0 #000; line-height:1.45; margin-bottom:10px; z-index:13; }
-.peppa-start { width:120px; height:120px; animation:bounce 0.8s infinite steps(2); margin-bottom:10px; z-index:13; }
-.start-menu { text-align:center; width:100%; z-index:13; display:flex; flex-direction:column; align-items:center; gap:0; }
-.start-count { font-size:14px; margin-bottom:8px; color:#111; text-shadow:0 1px 0 rgba(255,255,255,0.35); }
+/* === 1. Start Screen (Pokémon GB title / menu) === */
+#s-start { flex:1; min-height:0; display:flex; flex-direction:column; position:relative; overflow:hidden; background:#5ec8f8; }
+.s-sky { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:8px 8px 0; position:relative; z-index:2; }
+.s-clouds { position:absolute; top:10px; left:0; width:200%; height:28px; background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='20' shape-rendering='crispEdges'><rect x='4' y='10' width='24' height='6' fill='%23fff'/><rect x='8' y='6' width='16' height='6' fill='%23fff'/><rect x='12' y='4' width='8' height='4' fill='%23fff'/><rect x='40' y='12' width='20' height='5' fill='%23fff'/><rect x='44' y='8' width='12' height='5' fill='%23fff'/></svg>") repeat-x; animation:c-move 28s linear infinite; z-index:1; image-rendering:pixelated; }
+.logo-box {
+  background:#fffef0; border:3px solid #000; z-index:3; width:90%;
+  padding:8px 10px 7px; text-align:center; margin-bottom:8px;
+  box-shadow:3px 3px 0 #000, inset 0 0 0 2px #fffef0, inset 0 0 0 4px #000;
+}
+.logo { font-size:16px; color:var(--ink); text-shadow:none; line-height:1.35; margin:0; z-index:3; }
+.logo-sub { color:#c0392b; font-size:13px; margin-top:4px; letter-spacing:0.02em; }
+.peppa-wrap { z-index:3; margin-bottom:-2px; }
+.peppa-start { width:120px; height:112px; display:block; animation:bounce 0.8s infinite steps(2); }
+.s-ground {
+  flex-shrink:0; background:#3cb043; border-top:4px solid #1e6b22;
+  box-shadow:inset 0 5px 0 #58d058; padding:10px 10px 12px; z-index:4;
+}
+.start-menu { text-align:center; width:100%; z-index:4; display:flex; flex-direction:column; align-items:stretch; }
+.start-count {
+  background:#fffef0; border:3px solid #000; box-shadow:3px 3px 0 #000;
+  font-size:14px; margin-bottom:8px; color:var(--ink); padding:7px 10px; text-align:center;
+}
 .menu-btn {
-  background:#fff; border:3px solid #000; padding:14px 12px; width:86%;
-  min-height:48px; text-align:center; margin:8px auto 0 auto; cursor:pointer;
-  font-size:17px; line-height:1.3; box-shadow:4px 4px 0 #000; color:var(--ink);
+  background:#fffef0; border:3px solid #000; padding:14px 12px; width:100%;
+  min-height:48px; text-align:center; margin:8px 0 0 0; cursor:pointer;
+  font-size:17px; line-height:1.3; box-shadow:3px 3px 0 #000; color:var(--ink);
   z-index:2; display:flex; align-items:center; justify-content:center;
 }
-.menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #000; }
+.menu-btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 #000; }
 .mb-play { background:#219150; color:#fff; text-shadow:1px 1px 0 #000; }
 .mb-dex { background:#1a6aa3; color:#fff; text-shadow:1px 1px 0 #000; }
 
@@ -100,33 +116,48 @@ body { background:var(--bg); height:100vh; height:100dvh; margin:0; padding:6px;
 .d-frac { background:#7b3fa0; color:#fff; text-shadow:1px 1px 0 #000; }
 @keyframes border-pulse { 0% {box-shadow:4px 4px 0 #000;} 50% {box-shadow:4px 4px 0 #ffff00;} 100% {box-shadow:4px 4px 0 #000;} }
 
-/* === 3. Battle Scene === */
+/* === 3. Battle Scene (Pokémon GB staging + command UI) === */
 #s-battle { flex:1; min-height:0; display:flex; flex-direction:column; }
-.view { height:48%; background:linear-gradient(var(--blue) 60%, #a8e6cf 60%); position:relative; border-bottom:3px solid #000; overflow:hidden; flex-shrink:0; }
-.bg-sun { position:absolute; top:10px; right:20px; width:40px; height:40px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="%23fff700"/><path d="M10 0v4M10 16v4M0 10h4M16 10h4M3 3l3 3M14 14l3 3M3 17l3-3M14 6l3-3" stroke="%23fff700" stroke-width="2"/></svg>') no-repeat; z-index:0; }
-.bg-hills { position:absolute; bottom:38%; width:200%; height:60px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60"><path d="M0 60 C 30 20, 70 20, 100 60 C 130 30, 170 30, 200 60 Z" fill="%232ecc71"/><rect x="60" y="10" width="20" height="30" fill="%23f1c40f"/><path d="M55 10 L85 10 L70 0 Z" fill="%23e74c3c"/></svg>') repeat-x; animation: c-move 40s linear infinite; z-index:1; opacity:0.9; }
-.bg-ground { position:absolute; bottom:0; width:100%; height:40%; background:#70e070; border-top: 3px solid #5ec25e; z-index:2; }
-
-.hud { position:absolute; background:#fff; border:3px solid #000; padding:5px 7px; border-radius:4px; font-size:13px; color:var(--ink); z-index:14; }
-.hud-e { top:8px; left:8px; } .hud-p { bottom:25px; right:8px; text-align:right; }
-.hbar { width:64px; height:6px; border:1px solid #000; margin-top:3px; background:#ddd; }
+.view {
+  height:46%; background:linear-gradient(#7ec8f0 0 56%, #7edc78 56% 100%);
+  position:relative; border-bottom:3px solid #000; overflow:hidden; flex-shrink:0;
+}
+.bg-sun { position:absolute; top:8px; right:14px; width:28px; height:28px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" shape-rendering="crispEdges"><rect x="10" y="10" width="8" height="8" fill="%23ffe14a"/><rect x="12" y="2" width="4" height="6" fill="%23ffe14a"/><rect x="12" y="20" width="4" height="6" fill="%23ffe14a"/><rect x="2" y="12" width="6" height="4" fill="%23ffe14a"/><rect x="20" y="12" width="6" height="4" fill="%23ffe14a"/></svg>') no-repeat; z-index:0; image-rendering:pixelated; }
+.plat { position:absolute; height:14px; border-radius:50%; background:#2f7a32; border:3px solid #163d18; z-index:3; }
+.plat-e { width:132px; right:8px; top:48%; }
+.plat-p { width:116px; left:6px; bottom:8px; }
+.hud {
+  position:absolute; background:#fffef0; border:3px solid #000; padding:5px 8px 6px;
+  border-radius:0; font-size:13px; color:var(--ink); z-index:14;
+  box-shadow:3px 3px 0 #000; min-width:108px;
+}
+.hud-name { line-height:1.2; }
+.hud-e { top:8px; left:8px; }
+.hud-p { bottom:22px; right:8px; text-align:left; }
+.hp-row { display:flex; align-items:center; gap:5px; margin-top:4px; }
+.hp-lab { font-family:'Press Start 2P',cursive; font-size:6px; font-weight:400; color:#c0392b; line-height:1; }
+.hbar { flex:1; height:8px; border:2px solid #000; background:#d8d8d0; }
 .hfill { height:100%; background:var(--green); transition:width 0.3s; }
-.pos-e { position:absolute; top:20px; right:5px; width:170px; height:170px; animation:float 2s infinite ease-in-out; z-index:5; }
-.pos-p { position:absolute; bottom:5px; left:10px; width:110px; height:110px; z-index:5; }
+.pos-e { position:absolute; right:14px; bottom:38%; width:124px; height:124px; animation:float 2s infinite ease-in-out; z-index:5; }
+.pos-p { position:absolute; bottom:14px; left:12px; width:108px; height:101px; z-index:5; }
 
-.ctrl { flex:1; background:var(--panel); border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; gap:6px; min-height:0; }
-.msg { background:#fff; border:3px solid #000; padding:8px 10px; font-size:15px; min-height:44px; max-height:58px; margin-bottom:0; color:var(--ink); line-height:1.4; overflow:hidden; }
+.ctrl { flex:1; background:#1c2228; border-top:0; padding:8px; display:flex; flex-direction:column; gap:6px; min-height:0; }
+.msg {
+  background:#fffef0; border:2px solid #000; padding:8px 10px; font-size:15px;
+  min-height:44px; max-height:58px; margin-bottom:0; color:var(--ink); line-height:1.4; overflow:hidden;
+  box-shadow:inset 0 0 0 2px #fffef0, inset 0 0 0 4px #000;
+}
 .msg .zh { font-size:15px; line-height:1.4; }
 .grid { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; flex:1 1 auto; min-height:108px; }
 .b-btn {
-  background:#fff; border:3px solid #000; border-radius:4px;
+  background:#fffef0; border:3px solid #000; border-radius:0;
   display:flex; align-items:center; justify-content:center;
   padding:8px 6px; min-height:48px; height:100%; line-height:1.15; text-align:center;
   font-size:28px; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800;
-  cursor:pointer; color:var(--ink); box-shadow:0 3px 0 #000;
+  cursor:pointer; color:var(--ink); box-shadow:3px 3px 0 #000;
 }
 .b-btn.zh-btn { font-size:18px; padding:8px 8px; }
-.b-btn:active { transform:translateY(3px); box-shadow:none; }
+.b-btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 #000; }
 .btn-correct { background:#219150 !important; color:#fff !important; border-color:#000 !important; text-shadow:1px 1px 0 #000; }
 .btn-wrong { background:#c0392b !important; color:#fff !important; border-color:#000 !important; text-shadow:1px 1px 0 #000; }
 .catch { background:#c0392b; color:#fff; border-color:#000; text-shadow:1px 1px 0 #000; animation:pulse 1s infinite; min-height:52px; font-size:18px; grid-column:1 / -1; grid-row:1 / -1; }
@@ -170,7 +201,7 @@ body { background:var(--bg); height:100vh; height:100dvh; margin:0; padding:6px;
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
 #c-display { width:180px; height:180px; display:none; z-index:102; filter:drop-shadow(0 0 10px gold); }
 
-.q-text { font-size: 16px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 2px; text-align: center; line-height:1.4; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800; }
+.q-text { font-size: 16px; color: #fffef0; text-shadow: 2px 2px 0 #000; margin-bottom: 2px; text-align: center; line-height:1.4; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800; }
 .q-text .zh { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:16px; letter-spacing:0; text-shadow:1px 1px 0 #000; }
 .q-text.q-visual { font-size:12px; }
 .q-text.q-visual .zh { font-size:15px; }
@@ -203,15 +234,25 @@ body { background:var(--bg); height:100vh; height:100dvh; margin:0; padding:6px;
 </head>
 <body>
 <div class="gameboy"><div class="screen-bezel"><div class="screen">
+<svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><symbol id="peppa-px" viewBox="0 0 32 30"><rect x="9" y="1" width="4" height="1" fill="#181818"/><rect x="19" y="1" width="4" height="1" fill="#181818"/><rect x="8" y="2" width="1" height="4" fill="#181818"/><rect x="9" y="2" width="4" height="1" fill="#FFB7C8"/><rect x="13" y="2" width="1" height="4" fill="#181818"/><rect x="18" y="2" width="1" height="4" fill="#181818"/><rect x="19" y="2" width="4" height="6" fill="#FFB7C8"/><rect x="23" y="2" width="1" height="4" fill="#181818"/><rect x="9" y="3" width="1" height="5" fill="#FFB7C8"/><rect x="10" y="3" width="2" height="2" fill="#F098A8"/><rect x="12" y="3" width="1" height="15" fill="#FFB7C8"/><rect x="10" y="5" width="2" height="3" fill="#FFB7C8"/><rect x="14" y="5" width="4" height="1" fill="#181818"/><rect x="7" y="6" width="1" height="1" fill="#181818"/><rect x="8" y="6" width="1" height="10" fill="#FFB7C8"/><rect x="13" y="6" width="6" height="6" fill="#FFB7C8"/><rect x="23" y="6" width="1" height="11" fill="#FFB7C8"/><rect x="24" y="6" width="1" height="1" fill="#181818"/><rect x="6" y="7" width="1" height="7" fill="#181818"/><rect x="7" y="7" width="1" height="7" fill="#FFB7C8"/><rect x="24" y="7" width="1" height="9" fill="#FFB7C8"/><rect x="25" y="7" width="1" height="7" fill="#181818"/><rect x="9" y="8" width="2" height="1" fill="#FFFFFF"/><rect x="11" y="8" width="1" height="9" fill="#FFB7C8"/><rect x="19" y="8" width="2" height="1" fill="#FFFFFF"/><rect x="21" y="8" width="2" height="4" fill="#FFB7C8"/><rect x="9" y="9" width="1" height="1" fill="#181818"/><rect x="10" y="9" width="1" height="1" fill="#FFFFFF"/><rect x="19" y="9" width="1" height="1" fill="#181818"/><rect x="20" y="9" width="1" height="1" fill="#FFFFFF"/><rect x="9" y="10" width="2" height="1" fill="#FFB7C8"/><rect x="19" y="10" width="2" height="2" fill="#FFB7C8"/><rect x="9" y="11" width="2" height="2" fill="#FF7A96"/><rect x="13" y="12" width="4" height="1" fill="#FFB7C8"/><rect x="17" y="12" width="5" height="1" fill="#F098A8"/><rect x="22" y="12" width="1" height="5" fill="#FFB7C8"/><rect x="9" y="13" width="2" height="4" fill="#FFB7C8"/><rect x="13" y="13" width="3" height="5" fill="#FFB7C8"/><rect x="16" y="13" width="2" height="2" fill="#F098A8"/><rect x="18" y="13" width="2" height="2" fill="#181818"/><rect x="20" y="13" width="2" height="2" fill="#F098A8"/><rect x="26" y="13" width="1" height="2" fill="#181818"/><rect x="7" y="14" width="1" height="2" fill="#181818"/><rect x="25" y="14" width="1" height="1" fill="#FFB7C8"/><rect x="16" y="15" width="1" height="3" fill="#FFB7C8"/><rect x="17" y="15" width="4" height="1" fill="#F098A8"/><rect x="21" y="15" width="1" height="2" fill="#FFB7C8"/><rect x="25" y="15" width="1" height="1" fill="#181818"/><rect x="8" y="16" width="1" height="1" fill="#181818"/><rect x="17" y="16" width="4" height="2" fill="#FFB7C8"/><rect x="24" y="16" width="1" height="1" fill="#181818"/><rect x="9" y="17" width="3" height="1" fill="#181818"/><rect x="21" y="17" width="3" height="1" fill="#181818"/><rect x="8" y="18" width="1" height="1" fill="#181818"/><rect x="9" y="18" width="3" height="2" fill="#E23B32"/><rect x="12" y="18" width="9" height="1" fill="#181818"/><rect x="21" y="18" width="2" height="6" fill="#E23B32"/><rect x="23" y="18" width="1" height="1" fill="#181818"/><rect x="7" y="19" width="1" height="1" fill="#181818"/><rect x="8" y="19" width="1" height="1" fill="#E23B32"/><rect x="12" y="19" width="9" height="5" fill="#E23B32"/><rect x="23" y="19" width="1" height="2" fill="#E23B32"/><rect x="24" y="19" width="1" height="1" fill="#181818"/><rect x="6" y="20" width="1" height="3" fill="#181818"/><rect x="7" y="20" width="2" height="2" fill="#FFB7C8"/><rect x="9" y="20" width="1" height="3" fill="#181818"/><rect x="10" y="20" width="2" height="6" fill="#E23B32"/><rect x="24" y="20" width="1" height="1" fill="#E23B32"/><rect x="25" y="20" width="1" height="3" fill="#181818"/><rect x="23" y="21" width="2" height="1" fill="#FFB7C8"/><rect x="7" y="22" width="2" height="1" fill="#181818"/><rect x="23" y="22" width="2" height="1" fill="#181818"/><rect x="7" y="23" width="1" height="1" fill="#181818"/><rect x="8" y="23" width="2" height="1" fill="#E23B32"/><rect x="23" y="23" width="1" height="1" fill="#181818"/><rect x="8" y="24" width="1" height="1" fill="#181818"/><rect x="9" y="24" width="1" height="1" fill="#E23B32"/><rect x="12" y="24" width="2" height="2" fill="#E23B32"/><rect x="14" y="24" width="4" height="1" fill="#C42E28"/><rect x="18" y="24" width="4" height="1" fill="#E23B32"/><rect x="22" y="24" width="1" height="1" fill="#181818"/><rect x="9" y="25" width="1" height="1" fill="#181818"/><rect x="14" y="25" width="7" height="1" fill="#E23B32"/><rect x="21" y="25" width="1" height="1" fill="#181818"/><rect x="10" y="26" width="1" height="3" fill="#181818"/><rect x="11" y="26" width="3" height="2" fill="#FFB7C8"/><rect x="14" y="26" width="1" height="3" fill="#181818"/><rect x="18" y="26" width="1" height="3" fill="#181818"/><rect x="19" y="26" width="3" height="2" fill="#FFB7C8"/><rect x="22" y="26" width="1" height="3" fill="#181818"/><rect x="11" y="28" width="3" height="1" fill="#181818"/><rect x="19" y="28" width="3" height="1" fill="#181818"/></symbol></svg>
 
 <div id="s-start">
-    <div class="s-clouds"></div>
-    <div class="logo">佩佩 vs 寶可夢<br><span style="color:#ffff00;font-size:14px;">數學大師 DX</span></div>
-    <svg class="peppa-start" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="11" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="11" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="12" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="12" height="9" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="6" width="4" height="4" fill="#ffb7b2"/><rect x="15" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="0.5"/><rect x="17" y="7" width="1" height="2" fill="#d48c94"/><rect x="6" y="6" width="2" height="2" fill="#fff"/><rect x="7" y="7" width="1" height="1" fill="#000"/><rect x="10" y="6" width="2" height="2" fill="#fff"/><rect x="11" y="7" width="1" height="1" fill="#000"/><rect x="5" y="9" width="3" height="3" fill="#ff8da1" opacity="0.7"/><path d="M4 13 h10 l2 6 h-14 z" fill="#e74c3c"/><path d="M4 13 h10 l2 6 h-14 z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="1" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="1" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="16" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="16" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="6" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="6" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="12" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="12" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="5" y="21" width="4" height="1" fill="#000"/><rect x="11" y="21" width="4" height="1" fill="#000"/></svg>
-    <div class="start-menu">
-        <div class="start-count">圖鑑：<span id="d-cnt">0/27</span></div>
-        <div class="menu-btn mb-play" onclick="showDiff()">🌱 開始遊戲</div>
-        <div class="menu-btn mb-dex" onclick="dex()">📖 精靈圖鑑</div>
+    <div class="s-sky">
+        <div class="s-clouds"></div>
+        <div class="logo-box">
+            <div class="logo">佩佩 vs 寶可夢</div>
+            <div class="logo-sub">數學大師 DX</div>
+        </div>
+        <div class="peppa-wrap">
+            <svg class="peppa-start" viewBox="0 0 32 30" shape-rendering="crispEdges" aria-label="佩佩"><use href="#peppa-px" xlink:href="#peppa-px"/></svg>
+        </div>
+    </div>
+    <div class="s-ground">
+        <div class="start-menu">
+            <div class="start-count">圖鑑　<span id="d-cnt">0/27</span></div>
+            <div class="menu-btn mb-play" onclick="showDiff()">開始遊戲</div>
+            <div class="menu-btn mb-dex" onclick="dex()">精靈圖鑑</div>
+        </div>
     </div>
 </div>
 
@@ -228,11 +269,19 @@ body { background:var(--bg); height:100vh; height:100dvh; margin:0; padding:6px;
 
 <div id="s-battle" class="hidden">
     <div class="view">
-        <div class="bg-sun"></div><div class="bg-hills"></div><div class="bg-ground"></div>
-        <div class="hud hud-e"><div id="e-name">?</div><div class="hbar"><div class="hfill" id="e-hp"></div></div></div>
-        <img id="e-img" class="pos-e" src="">
-        <svg class="pos-p" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="13" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="13" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="14" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="14" height="9" fill="none" stroke="#000" stroke-width="0.5"/><path d="M4 13 h12 l2 6 h-16 z" fill="#e74c3c"/><path d="M4 13 h12 l2 6 h-16 z" fill="none" stroke="#000" stroke-width="0.5"/><path d="M16 16 c1 0 2 1 2 2 s-1 2-2 2" fill="none" stroke="#ff8da1" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="hud hud-p"><div>佩佩</div><div class="hbar"><div class="hfill" id="p-hp"></div></div></div>
+        <div class="bg-sun"></div>
+        <div class="plat plat-e"></div>
+        <div class="plat plat-p"></div>
+        <div class="hud hud-e">
+            <div class="hud-name" id="e-name">?</div>
+            <div class="hp-row"><span class="hp-lab">HP</span><div class="hbar"><div class="hfill" id="e-hp"></div></div></div>
+        </div>
+        <img id="e-img" class="pos-e" src="" alt="">
+        <svg class="pos-p" viewBox="0 0 32 30" shape-rendering="crispEdges" aria-label="佩佩"><use href="#peppa-px" xlink:href="#peppa-px"/></svg>
+        <div class="hud hud-p">
+            <div class="hud-name">佩佩</div>
+            <div class="hp-row"><span class="hp-lab">HP</span><div class="hbar"><div class="hfill" id="p-hp"></div></div></div>
+        </div>
     </div>
     <div class="ctrl">
         <div class="msg" id="msg">...</div>
