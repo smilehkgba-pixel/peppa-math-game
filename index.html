@@ -108,7 +108,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
     <div class="logo">PEPPA vs POKÉMON<br><span style="color:#ffff00;font-size:10px;">MATH MASTER DX</span></div>
     <svg class="peppa-start" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="11" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="11" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="12" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="12" height="9" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="6" width="4" height="4" fill="#ffb7b2"/><rect x="15" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="0.5"/><rect x="17" y="7" width="1" height="2" fill="#d48c94"/><rect x="6" y="6" width="2" height="2" fill="#fff"/><rect x="7" y="7" width="1" height="1" fill="#000"/><rect x="10" y="6" width="2" height="2" fill="#fff"/><rect x="11" y="7" width="1" height="1" fill="#000"/><rect x="5" y="9" width="3" height="3" fill="#ff8da1" opacity="0.7"/><path d="M4 13 h10 l2 6 h-14 z" fill="#e74c3c"/><path d="M4 13 h10 l2 6 h-14 z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="1" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="1" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="16" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="16" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="6" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="6" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="12" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="12" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="5" y="21" width="4" height="1" fill="#000"/><rect x="11" y="21" width="4" height="1" fill="#000"/></svg>
     <div style="text-align:center;width:100%;z-index:2">
-        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0/12</span></div>
+        <div style="font-size:8px;margin-bottom:5px;color:#000">DEX: <span id="d-cnt">0/27</span></div>
         <div class="menu-btn" style="background:#58d058" onclick="showDiff()">🌱 START GAME</div>
         <div class="menu-btn" style="background:#3498db" onclick="dex()">📖 POKÉDEX</div>
     </div>
@@ -152,7 +152,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 
     <div id="awards-menu" class="hidden">
         <div style="color:#fff; margin-bottom:20px;">ACHIEVEMENTS</div>
-        <div id="btn-aw-9" class="aw-btn" onclick="showAward(9)">9 POKEMON AWARD<br>(LOCKED)</div>
+        <div id="btn-aw-9" class="aw-btn" onclick="showAward(9)">ORDINARY AWARD<br>(LOCKED)</div>
         <div id="btn-aw-12" class="aw-btn" onclick="showAward(12)">MASTER AWARD<br>(LOCKED)</div>
         <div class="menu-btn" onclick="closeAwards()">CLOSE</div>
     </div>
@@ -161,14 +161,14 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 <div id="s-award-9" class="hidden award-screen">
     <div class="award-title">CERTIFICATE OF ACHIEVEMENT</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2800.jpeg" class="award-img">
-    <div style="font-size:10px;color:#fff;margin-bottom:20px;">You caught all 9 ordinary Pokémon!</div>
+    <div style="font-size:10px;color:#fff;margin-bottom:20px;">You caught all <span id="aw9-n">9</span> ordinary Pokémon!</div>
     <div class="menu-btn" onclick="backToDex()">CONTINUE</div>
 </div>
 
 <div id="s-award-12" class="hidden award-screen">
     <div class="award-title" style="color:gold;">ULTIMATE MATH MASTER</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2801.jpeg" class="award-img">
-    <div style="font-size:10px;color:#fff;margin-bottom:20px;">INCREDIBLE! You caught ALL 12 Pokémon!</div>
+    <div style="font-size:10px;color:#fff;margin-bottom:20px;">INCREDIBLE! You caught ALL <span id="aw12-n">12</span> Pokémon!</div>
     <div class="menu-btn" onclick="backToDex()">CONTINUE</div>
 </div>
 
@@ -180,26 +180,71 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 </div></div></div>
 
 <script>
+const SPR="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+const pkm=(id,n,h)=>({id,n,i:SPR+id+".png",h});
 const DB=[
-    {id:1,n:"Bulbasaur",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png", h:false},
-    {id:4,n:"Charmander",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png", h:false},
-    {id:7,n:"Squirtle",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png", h:false},
-    {id:25,n:"Pikachu",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png", h:false},
-    {id:39,n:"Jigglypuff",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png", h:false},
-    {id:52,n:"Meowth",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/52.png", h:false},
-    {id:54,n:"Psyduck",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png", h:false},
-    {id:133,n:"Eevee",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png", h:false},
-    {id:143,n:"Snorlax",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png", h:false},
-    // Legendary
-    {id:144,n:"Articuno",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png", h:true},
-    {id:151,n:"Mew",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png", h:true},
-    {id:150,n:"Mewtwo",i:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png", h:true}
+    // Ordinary (Easy mode)
+    pkm(1,"Bulbasaur",false),
+    pkm(4,"Charmander",false),
+    pkm(7,"Squirtle",false),
+    pkm(10,"Caterpie",false),
+    pkm(16,"Pidgey",false),
+    pkm(25,"Pikachu",false),
+    pkm(35,"Clefairy",false),
+    pkm(37,"Vulpix",false),
+    pkm(39,"Jigglypuff",false),
+    pkm(43,"Oddish",false),
+    pkm(52,"Meowth",false),
+    pkm(54,"Psyduck",false),
+    pkm(58,"Growlithe",false),
+    pkm(66,"Machop",false),
+    pkm(104,"Cubone",false),
+    pkm(129,"Magikarp",false),
+    pkm(133,"Eevee",false),
+    pkm(143,"Snorlax",false),
+    pkm(175,"Togepi",false),
+    pkm(183,"Marill",false),
+    // Legendary (Hard mode)
+    pkm(144,"Articuno",true),
+    pkm(145,"Zapdos",true),
+    pkm(146,"Moltres",true),
+    pkm(150,"Mewtwo",true),
+    pkm(151,"Mew",true),
+    pkm(249,"Lugia",true),
+    pkm(250,"Ho-Oh",true)
 ];
 
+const SAVE_KEY="peppa-math-progress";
 let my=[], c={m:null,eh:150,ph:100,a:0,cap:false,diff:'easy',lock:false}, timer=null;
 let awarded9 = false;
 
-function init(){rd();document.getElementById('d-cnt').innerText=`0/${DB.length}`;}
+function ordinaryTotal(){return DB.filter(p=>!p.h).length;}
+function ordinaryCaught(){return my.filter(id=>{const p=DB.find(x=>x.id===id);return p&&!p.h;}).length;}
+function allOrdinaryCaught(){return ordinaryTotal()>0&&ordinaryCaught()===ordinaryTotal();}
+function allCaught(){return DB.length>0&&DB.every(p=>my.includes(p.id));}
+function updateDexCount(){document.getElementById('d-cnt').innerText=`${my.length}/${DB.length}`;}
+function loadProgress(){
+    try{
+        const raw=localStorage.getItem(SAVE_KEY);
+        if(!raw) return;
+        const data=JSON.parse(raw);
+        if(Array.isArray(data.my)){
+            const valid=new Set(DB.map(p=>p.id));
+            my=data.my.filter(id=>valid.has(id));
+        }
+        if(typeof data.awarded9==="boolean") awarded9=data.awarded9;
+    }catch(e){}
+}
+function saveProgress(){
+    try{localStorage.setItem(SAVE_KEY,JSON.stringify({my,awarded9}));}catch(e){}
+}
+function init(){
+    loadProgress();
+    document.getElementById('aw9-n').innerText=ordinaryTotal();
+    document.getElementById('aw12-n').innerText=DB.length;
+    updateDexCount();
+    rd();
+}
 function show(id){document.querySelectorAll('.screen>div').forEach(d=>d.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
 function home(){show('s-start');} 
 function showDiff(){show('s-diff');}
@@ -214,14 +259,13 @@ function showDetail(id) {
 function closeDetail() { document.getElementById('dex-detail').classList.add('hidden'); }
 
 function openAwards() {
-    let norm = my.filter(id=>!DB.find(p=>p.id===id).h).length;
     let b9 = document.getElementById('btn-aw-9');
     let b12 = document.getElementById('btn-aw-12');
     
-    if(norm>=9) { b9.innerHTML="9 POKEMON AWARD<br>(VIEW)"; b9.classList.add('unlocked'); }
-    else { b9.innerHTML="9 POKEMON AWARD<br>(LOCKED)"; b9.classList.remove('unlocked'); }
+    if(allOrdinaryCaught()) { b9.innerHTML="ORDINARY AWARD<br>(VIEW)"; b9.classList.add('unlocked'); }
+    else { b9.innerHTML="ORDINARY AWARD<br>(LOCKED)"; b9.classList.remove('unlocked'); }
     
-    if(my.length>=12) { b12.innerHTML="MASTER AWARD<br>(VIEW)"; b12.classList.add('unlocked'); }
+    if(allCaught()) { b12.innerHTML="MASTER AWARD<br>(VIEW)"; b12.classList.add('unlocked'); }
     else { b12.innerHTML="MASTER AWARD<br>(LOCKED)"; b12.classList.remove('unlocked'); }
     
     document.getElementById('awards-menu').classList.remove('hidden');
@@ -229,9 +273,8 @@ function openAwards() {
 function closeAwards() { document.getElementById('awards-menu').classList.add('hidden'); }
 
 function showAward(type) {
-    let norm = my.filter(id=>!DB.find(p=>p.id===id).h).length;
-    if(type===9 && norm>=9) show('s-award-9');
-    if(type===12 && my.length>=12) show('s-award-12');
+    if(type===9 && allOrdinaryCaught()) show('s-award-9');
+    if(type===12 && allCaught()) show('s-award-12');
 }
 function backToDex() { show('s-dex'); }
 
@@ -354,14 +397,14 @@ function goCatch(){
                 setTimeout(()=>{ cd.classList.remove('pop-up'); cd.classList.add('happy-jump'); },600);
                 
                 if(!my.includes(c.m.id)) my.push(c.m.id);
+                saveProgress();
                 msg(`Gotcha! ${c.m.n}!`);
-                document.getElementById('d-cnt').innerText=`${my.length}/${DB.length}`; document.getElementById('e-img').style.opacity=0;
+                updateDexCount(); document.getElementById('e-img').style.opacity=0;
                 
                 timer=setTimeout(()=>{
                     l.classList.add('hidden');
-                    let norm = my.filter(id => !DB.find(p=>p.id===id).h).length;
-                    if(my.length === DB.length) { show('s-award-12'); }
-                    else if (norm === 9 && !awarded9 && !c.m.h) { awarded9 = true; show('s-award-9'); }
+                    if(allCaught()) { show('s-award-12'); }
+                    else if (allOrdinaryCaught() && !awarded9 && !c.m.h) { awarded9 = true; saveProgress(); show('s-award-9'); }
                     else { home(); }
                 },3000);
             },1500);
