@@ -6,90 +6,162 @@
 <title>佩佩數學大師 DX</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
 <style>
-:root { --gb:#f1c40f; --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7; }
-* { box-sizing:border-box; image-rendering:pixelated; font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei','Noto Sans CJK TC',sans-serif; font-weight:700; letter-spacing:0; user-select:none; -webkit-tap-highlight-color: transparent; }
-body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
-.gameboy { width:100%; max-width:420px; height:98vh; background:var(--gb); border-radius:10px 10px 30px 30px; padding:12px; display:flex; flex-direction:column; box-shadow:inset -5px -5px 10px rgba(0,0,0,0.2); position:relative; }
-.screen-bezel { background:#555; padding:10px 10px 25px 10px; border-radius:5px 5px 20px 5px; flex:1; min-height:0; display:flex; flex-direction:column; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.5); }
-.screen { background:#f8f8f8; flex:1; min-height:0; border:3px solid #000; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+:root {
+  --gb:#f1c40f; --gb-hi:#f6d34a; --gb-shadow:#c9a00c;
+  --bg:#222; --green:#2ecc71; --red:#e74c3c; --blue:#4fc3f7;
+  --ink:#111; --lcd:#f3f0dc; --panel:#2c3e50;
+}
+* { box-sizing:border-box; font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei','Noto Sans CJK TC',sans-serif; font-weight:700; letter-spacing:0; user-select:none; -webkit-tap-highlight-color:transparent; }
+img, svg { image-rendering:pixelated; image-rendering:crisp-edges; }
+body { background:var(--bg); height:100vh; height:100dvh; margin:0; padding:6px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
+
+/* Yellow DMG shell — plastic bevel, not glass */
+.gameboy {
+  width:100%; max-width:420px; height:98vh; height:98dvh;
+  background:linear-gradient(180deg, var(--gb-hi) 0%, var(--gb) 22%, var(--gb) 100%);
+  border-radius:12px 12px 46px 12px; padding:14px 14px 12px 14px;
+  display:flex; flex-direction:column; position:relative;
+  border:3px solid #e0b40e;
+  box-shadow:
+    inset 4px 4px 0 rgba(255,255,255,0.28),
+    inset -5px -7px 0 rgba(0,0,0,0.14),
+    0 8px 0 var(--gb-shadow),
+    0 12px 16px rgba(0,0,0,0.32);
+}
+.gameboy::after {
+  content:"GAME BOY"; font-family:'Press Start 2P',cursive; font-weight:400;
+  font-size:7px; letter-spacing:0.18em; color:#5c4d10; text-align:center;
+  margin-top:8px; opacity:0.72; line-height:1; flex-shrink:0;
+}
+.screen-bezel {
+  background:linear-gradient(180deg,#4a4a4a,#2c2c2c);
+  padding:12px 12px 28px 12px; border-radius:8px 8px 28px 8px;
+  flex:1; min-height:0; display:flex; flex-direction:column; position:relative;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,0.14), inset -3px -3px 0 rgba(0,0,0,0.55);
+}
+.screen-bezel::before {
+  content:""; position:absolute; left:12px; bottom:10px; width:8px; height:8px;
+  background:#e74c3c; border-radius:50%;
+  box-shadow:0 0 0 2px #1a1a1a, 0 0 5px #e74c3c;
+}
+.screen-bezel::after {
+  content:""; position:absolute; right:14px; bottom:8px; width:52px; height:14px;
+  background:radial-gradient(circle,#111 1.15px,transparent 1.25px);
+  background-size:7px 7px; opacity:0.88;
+}
+.screen {
+  background:var(--lcd); flex:1; min-height:0; border:3px solid #000;
+  position:relative; overflow:hidden; display:flex; flex-direction:column;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,0.2);
+}
+.screen::after {
+  content:""; position:absolute; top:0; left:0; right:0; height:22%;
+  pointer-events:none; z-index:12;
+  background:linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0));
+}
 .hidden { display:none !important; }
 
 /* === 1. Start Screen === */
-#s-start { flex:1; background:linear-gradient(var(--blue) 50%, #7cfc00 50%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden;}
-.s-clouds { position:absolute; top:20px; left:0; width:200%; height:40px; background:url('data:image/svg+xml;utf8,<svg width="100" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M10 30 Q25 10 40 30 Q55 10 70 30 Q85 10 100 30" stroke="white" fill="white" opacity="0.6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>') repeat-x; animation: c-move 30s linear infinite; z-index:1; }
-.logo { font-size:18px; text-align:center; color:#fff; text-shadow:2px 2px 0 #000; line-height:1.5; margin-bottom:16px; z-index:2; }
-.peppa-start { width:120px; height:120px; animation:bounce 0.8s infinite steps(2); margin-bottom:16px; z-index:2; }
-.menu-btn { background:#fff; border:3px solid #000; padding:12px; width:85%; text-align:center; margin:8px auto 0 auto; cursor:pointer; font-size:16px; box-shadow:4px 4px 0 rgba(0,0,0,0.3); color:#000; z-index:2; display:block; }
-.menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.3); }
+#s-start { flex:1; background:linear-gradient(var(--blue) 50%, #7cfc00 50%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:10px 8px; }
+.s-clouds { position:absolute; top:16px; left:0; width:200%; height:40px; background:url('data:image/svg+xml;utf8,<svg width="100" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M10 30 Q25 10 40 30 Q55 10 70 30 Q85 10 100 30" stroke="white" fill="white" opacity="0.6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>') repeat-x; animation: c-move 30s linear infinite; z-index:1; }
+.logo { font-size:18px; text-align:center; color:#fff; text-shadow:2px 2px 0 #000; line-height:1.45; margin-bottom:10px; z-index:13; }
+.peppa-start { width:120px; height:120px; animation:bounce 0.8s infinite steps(2); margin-bottom:10px; z-index:13; }
+.start-menu { text-align:center; width:100%; z-index:13; display:flex; flex-direction:column; align-items:center; gap:0; }
+.start-count { font-size:14px; margin-bottom:8px; color:#111; text-shadow:0 1px 0 rgba(255,255,255,0.35); }
+.menu-btn {
+  background:#fff; border:3px solid #000; padding:14px 12px; width:86%;
+  min-height:48px; text-align:center; margin:8px auto 0 auto; cursor:pointer;
+  font-size:17px; line-height:1.3; box-shadow:4px 4px 0 #000; color:var(--ink);
+  z-index:2; display:flex; align-items:center; justify-content:center;
+}
+.menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #000; }
+.mb-play { background:#219150; color:#fff; text-shadow:1px 1px 0 #000; }
+.mb-dex { background:#1a6aa3; color:#fff; text-shadow:1px 1px 0 #000; }
 
 /* === 2. Topic Select === */
-#s-diff { flex:1; min-height:0; background:#2c3e50; padding:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; }
-.diff-scroll { width:100%; flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-#s-diff > .menu-btn { flex-shrink:0; }
-.diff-title { color:#fff; font-size:18px; margin-bottom:14px; text-align:center; text-shadow: 2px 2px 0 #000; line-height:1.5; }
-.diff-btn { width:100%; padding:12px 8px; margin-bottom:10px; border:3px solid #000; cursor:pointer; font-size:18px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; line-height:1.4; }
+#s-diff { flex:1; min-height:0; background:var(--panel); padding:10px 12px 8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; }
+.diff-scroll { width:100%; flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; justify-content:center; justify-content:safe center; padding:2px 0 6px; }
+#s-diff > .menu-btn { flex-shrink:0; width:100%; margin-top:6px; }
+.diff-title { color:#fff; font-size:18px; margin:0 0 10px; text-align:center; text-shadow:2px 2px 0 #000; line-height:1.4; }
+.diff-btn {
+  width:100%; padding:12px 10px; margin-bottom:8px; border:3px solid #000;
+  cursor:pointer; font-size:18px; color:var(--ink); text-align:center;
+  position:relative; box-shadow:4px 4px 0 #000; line-height:1.3; min-height:56px;
+}
 .diff-btn:active { transform:translate(2px,2px); box-shadow:none; }
 .zh, .diff-sub {
   font-family:'Noto Sans TC','Noto Sans CJK TC','PingFang HK','Microsoft JhengHei','Source Han Sans TC',sans-serif;
   font-weight:700; letter-spacing:0; font-style:normal;
 }
-.diff-sub { display:block; font-size:13px; margin-top:6px; line-height:1.35; }
-.d-easy { background:#2ecc71; }
-.d-hard { background:#e74c3c; color:#fff; animation: border-pulse 2s infinite; }
-.d-div { background:#3498db; color:#fff; }
-.d-frac { background:#9b59b6; color:#fff; }
-@keyframes border-pulse { 0% {box-shadow: 4px 4px 0 #000;} 50% {box-shadow: 4px 4px 0 #ffff00;} 100% {box-shadow: 4px 4px 0 #000;} }
+.diff-sub { display:block; font-size:13px; margin-top:4px; line-height:1.3; color:inherit; opacity:0.95; }
+.d-easy { background:#1e8e4f; color:#fff; text-shadow:1px 1px 0 #000; }
+.d-hard { background:#c0392b; color:#fff; text-shadow:1px 1px 0 #000; animation:border-pulse 2s infinite; }
+.d-div { background:#1a6aa3; color:#fff; text-shadow:1px 1px 0 #000; }
+.d-frac { background:#7b3fa0; color:#fff; text-shadow:1px 1px 0 #000; }
+@keyframes border-pulse { 0% {box-shadow:4px 4px 0 #000;} 50% {box-shadow:4px 4px 0 #ffff00;} 100% {box-shadow:4px 4px 0 #000;} }
 
 /* === 3. Battle Scene === */
 #s-battle { flex:1; min-height:0; display:flex; flex-direction:column; }
-.view { height:48%; background:linear-gradient(var(--blue) 60%, #a8e6cf 60%); position:relative; border-bottom:3px solid #000; overflow:hidden; }
+.view { height:48%; background:linear-gradient(var(--blue) 60%, #a8e6cf 60%); position:relative; border-bottom:3px solid #000; overflow:hidden; flex-shrink:0; }
 .bg-sun { position:absolute; top:10px; right:20px; width:40px; height:40px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="%23fff700"/><path d="M10 0v4M10 16v4M0 10h4M16 10h4M3 3l3 3M14 14l3 3M3 17l3-3M14 6l3-3" stroke="%23fff700" stroke-width="2"/></svg>') no-repeat; z-index:0; }
 .bg-hills { position:absolute; bottom:38%; width:200%; height:60px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60"><path d="M0 60 C 30 20, 70 20, 100 60 C 130 30, 170 30, 200 60 Z" fill="%232ecc71"/><rect x="60" y="10" width="20" height="30" fill="%23f1c40f"/><path d="M55 10 L85 10 L70 0 Z" fill="%23e74c3c"/></svg>') repeat-x; animation: c-move 40s linear infinite; z-index:1; opacity:0.9; }
 .bg-ground { position:absolute; bottom:0; width:100%; height:40%; background:#70e070; border-top: 3px solid #5ec25e; z-index:2; }
 
-.hud { position:absolute; background:#fff; border:2px solid #000; padding:4px 6px; border-radius:4px; font-size:12px; z-index:10; }
+.hud { position:absolute; background:#fff; border:3px solid #000; padding:5px 7px; border-radius:4px; font-size:13px; color:var(--ink); z-index:14; }
 .hud-e { top:8px; left:8px; } .hud-p { bottom:25px; right:8px; text-align:right; }
-.hbar { width:60px; height:5px; border:1px solid #000; margin-top:2px; background:#ddd; }
+.hbar { width:64px; height:6px; border:1px solid #000; margin-top:3px; background:#ddd; }
 .hfill { height:100%; background:var(--green); transition:width 0.3s; }
 .pos-e { position:absolute; top:20px; right:5px; width:170px; height:170px; animation:float 2s infinite ease-in-out; z-index:5; }
 .pos-p { position:absolute; bottom:5px; left:10px; width:110px; height:110px; z-index:5; }
 
-.ctrl { flex:1; background:#2c3e50; border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; min-height:0; }
-.msg { background:#fff; border:2px solid #000; padding:6px 8px; font-size:14px; min-height:42px; max-height:56px; margin-bottom:6px; color:#000; line-height:1.4; overflow:hidden; }
-.msg .zh { font-size:14px; line-height:1.4; }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:0 0 auto; min-height:96px; max-height:150px; height:38%; }
-/* 按鈕樣式 */
-.b-btn { background:#fff; border:2px solid #555; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:22px; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800; cursor:pointer; color:#000; box-shadow:0 3px 0 #888; transition: background 0.1s; padding:6px; line-height:1.2; text-align:center; image-rendering:auto; }
-.b-btn.zh-btn { font-size:18px; }
+.ctrl { flex:1; background:var(--panel); border-top:3px solid #ffcc00; padding:8px; display:flex; flex-direction:column; gap:6px; min-height:0; }
+.msg { background:#fff; border:3px solid #000; padding:8px 10px; font-size:15px; min-height:44px; max-height:58px; margin-bottom:0; color:var(--ink); line-height:1.4; overflow:hidden; }
+.msg .zh { font-size:15px; line-height:1.4; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; flex:1 1 auto; min-height:108px; max-height:168px; }
+.b-btn {
+  background:#fff; border:3px solid #000; border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800;
+  cursor:pointer; color:var(--ink); box-shadow:0 3px 0 #000;
+  padding:8px 6px; min-height:48px; line-height:1.15; text-align:center;
+}
+.b-btn.zh-btn { font-size:18px; padding:8px 8px; }
 .b-btn:active { transform:translateY(3px); box-shadow:none; }
-.btn-correct { background: #2ecc71 !important; color: #fff !important; border-color: #27ae60 !important; }
-.btn-wrong { background: #e74c3c !important; color: #fff !important; border-color: #c0392b !important; }
-.catch { background:#ff4757; color:white; border-color:#c0392b; animation:pulse 1s infinite; }
+.btn-correct { background:#219150 !important; color:#fff !important; border-color:#000 !important; text-shadow:1px 1px 0 #000; }
+.btn-wrong { background:#c0392b !important; color:#fff !important; border-color:#000 !important; text-shadow:1px 1px 0 #000; }
+.catch { background:#c0392b; color:#fff; border-color:#000; text-shadow:1px 1px 0 #000; animation:pulse 1s infinite; min-height:52px; font-size:18px; }
 
 /* === Dex & Detail === */
-#s-dex { flex:1; min-height:0; background:var(--red); display:flex; flex-direction:column; padding:10px; position: relative; overflow:hidden; }
-.dex-head { display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #000; margin-bottom:5px; padding-bottom:5px; flex-shrink:0; }
-.d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; overflow-y:auto; flex:1 1 auto; min-height:0; padding-bottom:5px; -webkit-overflow-scrolling:touch; }
-.dex-foot { flex-shrink:0; }
-.slot { background:#fff; border:2px solid #000; text-align:center; padding:5px; filter:grayscale(1) brightness(0.7); cursor: default; }
-.slot .nm { font-size:11px; margin-top:2px; line-height:1.3; }
-.slot.got { filter:grayscale(0) brightness(1); border-color:gold; cursor: pointer; transition: transform 0.1s; }
-.slot.got:active { transform: scale(0.95); }
+#s-dex { flex:1; min-height:0; background:var(--red); display:flex; flex-direction:column; padding:8px; position:relative; overflow:hidden; }
+.dex-head { display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #000; margin-bottom:8px; padding-bottom:8px; flex-shrink:0; gap:8px; }
+.dex-title { color:#fff; font-size:16px; text-shadow:1px 1px 0 #000; }
+.awards-chip {
+  font-size:14px; background:var(--gb); color:var(--ink); padding:8px 10px;
+  border:3px solid #000; cursor:pointer; min-height:40px; box-shadow:2px 2px 0 #000;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.awards-chip:active { transform:translate(2px,2px); box-shadow:none; }
+.d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; overflow-y:auto; flex:1 1 auto; min-height:0; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+.dex-foot { flex-shrink:0; width:100%; min-height:48px; margin:8px 0 0 0; }
+.slot { background:#fff; border:2px solid #000; text-align:center; padding:6px 4px; filter:grayscale(1) brightness(0.7); cursor:default; }
+.slot .nm { font-size:12px; margin-top:3px; line-height:1.3; color:var(--ink); }
+.slot.got { filter:grayscale(0) brightness(1); border-color:#d4a017; cursor:pointer; transition:transform 0.1s; }
+.slot.got:active { transform:scale(0.95); }
 
-#dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-y:auto; }
-#dd-name { color:#fff; font-size:20px; margin-bottom:20px; letter-spacing:0; text-shadow: 2px 2px 0 #000; flex-shrink:0; }
-#dd-img { width:180px; height:180px; max-height:40%; object-fit:contain; image-rendering:pixelated; margin-bottom:20px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
+#dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-y:auto; padding:12px; }
+#dd-name { color:#fff; font-size:20px; margin-bottom:16px; letter-spacing:0; text-shadow: 2px 2px 0 #000; flex-shrink:0; }
+#dd-img { width:180px; height:180px; max-height:40%; object-fit:contain; image-rendering:pixelated; margin-bottom:16px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
 #dex-detail > .menu-btn { flex-shrink:0; }
 
-#awards-menu { position:absolute; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index:15; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; overflow-y:auto; }
-.aw-btn { width:100%; margin-bottom:15px; padding:15px; font-size:16px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; line-height:1.45; flex-shrink:0; }
+#awards-menu { position:absolute; top:0; left:0; width:100%; height:100%; background:var(--panel); z-index:15; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px; overflow-y:auto; }
+.aw-btn { width:100%; margin-bottom:10px; padding:14px 12px; min-height:52px; font-size:16px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; line-height:1.4; flex-shrink:0; }
 .aw-btn.unlocked { background:#f1c40f; color:#000; border-color:#000; animation: pulse 1s infinite; }
-#awards-menu > .menu-btn { flex-shrink:0; }
+#awards-menu > .menu-btn { flex-shrink:0; width:100%; margin-top:6px; }
 
-.award-screen { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; overflow:hidden; }
+.award-screen { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px; text-align:center; overflow:hidden; }
 #s-award-9 { background: #3498db; }
 #s-award-12 { background: linear-gradient(135deg, #f1c40f, #e67e22); }
-.award-img { width: 90%; max-width: 300px; max-height: 42%; object-fit: contain; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+.award-img { width: 90%; max-width: 300px; max-height: 42%; object-fit: contain; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 16px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
 .award-title { font-size: 18px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; flex-shrink:0; }
 .award-copy { flex-shrink:0; }
 .award-screen > .menu-btn { flex-shrink:0; }
@@ -98,10 +170,10 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
 #c-display { width:180px; height:180px; display:none; z-index:102; filter:drop-shadow(0 0 10px gold); }
 
-.q-text { font-size: 14px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 4px; text-align: center; line-height:1.4; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800; }
-.q-text .zh { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:14px; letter-spacing:0; text-shadow:1px 1px 0 #000; }
-.q-text.q-visual { font-size:10px; }
-.q-text.q-visual .zh { font-size:14px; }
+.q-text { font-size: 16px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 2px; text-align: center; line-height:1.4; font-family:'Noto Sans TC','Press Start 2P',sans-serif; font-weight:800; }
+.q-text .zh { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:16px; letter-spacing:0; text-shadow:1px 1px 0 #000; }
+.q-text.q-visual { font-size:12px; }
+.q-text.q-visual .zh { font-size:15px; }
 .frac-pizza { width:92px; height:92px; display:block; margin:4px auto 2px auto; }
 .frac-bar { display:flex; width:200px; max-width:92%; height:36px; margin:8px auto 4px auto; border:3px solid #000; background:#fff; }
 .frac-cell { flex:1; background:#fff6d5; border-right:3px solid #000; }
@@ -136,10 +208,10 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
     <div class="s-clouds"></div>
     <div class="logo">佩佩 vs 寶可夢<br><span style="color:#ffff00;font-size:14px;">數學大師 DX</span></div>
     <svg class="peppa-start" viewBox="0 0 20 22" shape-rendering="crispEdges"><rect x="5" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="5" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="11" y="1" width="2" height="3" fill="#ffb7b2"/><rect x="11" y="1" width="2" height="3" fill="none" stroke="#000" stroke-width="0.5"/><rect x="3" y="4" width="12" height="9" fill="#ffb7b2"/><rect x="3" y="4" width="12" height="9" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="6" width="4" height="4" fill="#ffb7b2"/><rect x="15" y="6" width="4" height="4" fill="none" stroke="#000" stroke-width="0.5"/><rect x="17" y="7" width="1" height="2" fill="#d48c94"/><rect x="6" y="6" width="2" height="2" fill="#fff"/><rect x="7" y="7" width="1" height="1" fill="#000"/><rect x="10" y="6" width="2" height="2" fill="#fff"/><rect x="11" y="7" width="1" height="1" fill="#000"/><rect x="5" y="9" width="3" height="3" fill="#ff8da1" opacity="0.7"/><path d="M4 13 h10 l2 6 h-14 z" fill="#e74c3c"/><path d="M4 13 h10 l2 6 h-14 z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="1" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="1" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="16" y="15" width="3" height="1" fill="#ffb7b2"/><rect x="16" y="15" width="3" height="1" fill="none" stroke="#000" stroke-width="0.5"/><rect x="6" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="6" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="12" y="19" width="2" height="2" fill="#ffb7b2"/><rect x="12" y="19" width="2" height="2" fill="none" stroke="#000" stroke-width="0.5"/><rect x="5" y="21" width="4" height="1" fill="#000"/><rect x="11" y="21" width="4" height="1" fill="#000"/></svg>
-    <div style="text-align:center;width:100%;z-index:2">
-        <div style="font-size:14px;margin-bottom:6px;color:#000">圖鑑：<span id="d-cnt">0/27</span></div>
-        <div class="menu-btn" style="background:#58d058" onclick="showDiff()">🌱 開始遊戲</div>
-        <div class="menu-btn" style="background:#3498db" onclick="dex()">📖 精靈圖鑑</div>
+    <div class="start-menu">
+        <div class="start-count">圖鑑：<span id="d-cnt">0/27</span></div>
+        <div class="menu-btn mb-play" onclick="showDiff()">🌱 開始遊戲</div>
+        <div class="menu-btn mb-dex" onclick="dex()">📖 精靈圖鑑</div>
     </div>
 </div>
 
@@ -171,11 +243,11 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 
 <div id="s-dex" class="hidden">
     <div class="dex-head">
-        <div style="color:#fff;font-size:16px">精靈圖鑑</div>
-        <div style="font-size:14px; background:#f1c40f; color:#000; padding:6px 8px; border:2px solid #000; cursor:pointer;" onclick="openAwards()">🏆 獎項</div>
+        <div class="dex-title">精靈圖鑑</div>
+        <div class="awards-chip" onclick="openAwards()">🏆 獎項</div>
     </div>
     <div class="d-grid" id="d-grid"></div>
-    <div class="menu-btn dex-foot" style="width:100%" onclick="home()">返回</div>
+    <div class="menu-btn dex-foot" onclick="home()">返回</div>
     
     <div id="dex-detail" class="hidden">
         <div id="dd-name"></div>
