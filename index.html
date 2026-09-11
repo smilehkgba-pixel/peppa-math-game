@@ -10,8 +10,8 @@
 * { box-sizing:border-box; image-rendering:pixelated; font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei','Noto Sans CJK TC',sans-serif; font-weight:700; letter-spacing:0; user-select:none; -webkit-tap-highlight-color: transparent; }
 body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
 .gameboy { width:100%; max-width:420px; height:98vh; background:var(--gb); border-radius:10px 10px 30px 30px; padding:12px; display:flex; flex-direction:column; box-shadow:inset -5px -5px 10px rgba(0,0,0,0.2); position:relative; }
-.screen-bezel { background:#555; padding:10px 10px 25px 10px; border-radius:5px 5px 20px 5px; flex:1; display:flex; flex-direction:column; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.5); }
-.screen { background:#f8f8f8; flex:1; border:3px solid #000; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+.screen-bezel { background:#555; padding:10px 10px 25px 10px; border-radius:5px 5px 20px 5px; flex:1; min-height:0; display:flex; flex-direction:column; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.5); }
+.screen { background:#f8f8f8; flex:1; min-height:0; border:3px solid #000; position:relative; overflow:hidden; display:flex; flex-direction:column; }
 .hidden { display:none !important; }
 
 /* === 1. Start Screen === */
@@ -23,7 +23,9 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .menu-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 rgba(0,0,0,0.3); }
 
 /* === 2. Topic Select === */
-#s-diff { flex:1; background:#2c3e50; padding:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-y:auto; }
+#s-diff { flex:1; min-height:0; background:#2c3e50; padding:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; }
+.diff-scroll { width:100%; flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+#s-diff > .menu-btn { flex-shrink:0; }
 .diff-title { color:#fff; font-size:18px; margin-bottom:14px; text-align:center; text-shadow: 2px 2px 0 #000; line-height:1.5; }
 .diff-btn { width:100%; padding:12px 8px; margin-bottom:10px; border:3px solid #000; cursor:pointer; font-size:18px; color:#000; text-align:center; position:relative; box-shadow:4px 4px 0 #000; line-height:1.4; }
 .diff-btn:active { transform:translate(2px,2px); box-shadow:none; }
@@ -39,7 +41,7 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 @keyframes border-pulse { 0% {box-shadow: 4px 4px 0 #000;} 50% {box-shadow: 4px 4px 0 #ffff00;} 100% {box-shadow: 4px 4px 0 #000;} }
 
 /* === 3. Battle Scene === */
-#s-battle { flex:1; display:flex; flex-direction:column; }
+#s-battle { flex:1; min-height:0; display:flex; flex-direction:column; }
 .view { height:48%; background:linear-gradient(var(--blue) 60%, #a8e6cf 60%); position:relative; border-bottom:3px solid #000; overflow:hidden; }
 .bg-sun { position:absolute; top:10px; right:20px; width:40px; height:40px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="%23fff700"/><path d="M10 0v4M10 16v4M0 10h4M16 10h4M3 3l3 3M14 14l3 3M3 17l3-3M14 6l3-3" stroke="%23fff700" stroke-width="2"/></svg>') no-repeat; z-index:0; }
 .bg-hills { position:absolute; bottom:38%; width:200%; height:60px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60"><path d="M0 60 C 30 20, 70 20, 100 60 C 130 30, 170 30, 200 60 Z" fill="%232ecc71"/><rect x="60" y="10" width="20" height="30" fill="%23f1c40f"/><path d="M55 10 L85 10 L70 0 Z" fill="%23e74c3c"/></svg>') repeat-x; animation: c-move 40s linear infinite; z-index:1; opacity:0.9; }
@@ -65,26 +67,32 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 .catch { background:#ff4757; color:white; border-color:#c0392b; animation:pulse 1s infinite; }
 
 /* === Dex & Detail === */
-#s-dex { flex:1; background:var(--red); display:flex; flex-direction:column; padding:10px; position: relative; }
-.d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; overflow-y:auto; flex:1; padding-bottom:5px; }
+#s-dex { flex:1; min-height:0; background:var(--red); display:flex; flex-direction:column; padding:10px; position: relative; overflow:hidden; }
+.dex-head { display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #000; margin-bottom:5px; padding-bottom:5px; flex-shrink:0; }
+.d-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; overflow-y:auto; flex:1 1 auto; min-height:0; padding-bottom:5px; -webkit-overflow-scrolling:touch; }
+.dex-foot { flex-shrink:0; }
 .slot { background:#fff; border:2px solid #000; text-align:center; padding:5px; filter:grayscale(1) brightness(0.7); cursor: default; }
 .slot .nm { font-size:11px; margin-top:2px; line-height:1.3; }
 .slot.got { filter:grayscale(0) brightness(1); border-color:gold; cursor: pointer; transition: transform 0.1s; }
 .slot.got:active { transform: scale(0.95); }
 
-#dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-#dd-name { color:#fff; font-size:20px; margin-bottom:20px; letter-spacing:0; text-shadow: 2px 2px 0 #000; }
-#dd-img { width:180px; height:180px; image-rendering:pixelated; margin-bottom:20px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
+#dex-detail { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow-y:auto; }
+#dd-name { color:#fff; font-size:20px; margin-bottom:20px; letter-spacing:0; text-shadow: 2px 2px 0 #000; flex-shrink:0; }
+#dd-img { width:180px; height:180px; max-height:40%; object-fit:contain; image-rendering:pixelated; margin-bottom:20px; animation: bounce 0.6s infinite alternate; filter: drop-shadow(0 0 10px #fff); }
+#dex-detail > .menu-btn { flex-shrink:0; }
 
-#awards-menu { position:absolute; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index:15; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
-.aw-btn { width:100%; margin-bottom:15px; padding:15px; font-size:16px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; line-height:1.45; }
+#awards-menu { position:absolute; top:0; left:0; width:100%; height:100%; background:#2c3e50; z-index:15; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; overflow-y:auto; }
+.aw-btn { width:100%; margin-bottom:15px; padding:15px; font-size:16px; border:3px solid #fff; color:#fff; cursor:pointer; text-align:center; background:#555; line-height:1.45; flex-shrink:0; }
 .aw-btn.unlocked { background:#f1c40f; color:#000; border-color:#000; animation: pulse 1s infinite; }
+#awards-menu > .menu-btn { flex-shrink:0; }
 
-.award-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; }
+.award-screen { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; overflow:hidden; }
 #s-award-9 { background: #3498db; }
 #s-award-12 { background: linear-gradient(135deg, #f1c40f, #e67e22); }
-.award-img { width: 90%; max-width: 300px; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-.award-title { font-size: 18px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; }
+.award-img { width: 90%; max-width: 300px; max-height: 42%; object-fit: contain; border: 4px solid #000; box-shadow: 5px 5px 0 rgba(0,0,0,0.3); margin-bottom: 20px; animation: pop-up 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+.award-title { font-size: 18px; color: #fff; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; flex-shrink:0; }
+.award-copy { flex-shrink:0; }
+.award-screen > .menu-btn { flex-shrink:0; }
 
 #l-ball { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99; display:flex; flex-direction:column; justify-content:center; align-items:center; }
 #flash { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; z-index:100; opacity:0; pointer-events:none; }
@@ -136,11 +144,13 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 </div>
 
 <div id="s-diff" class="hidden">
-    <div class="diff-title">揀課題</div>
-    <div class="diff-btn d-easy" onclick="battle('easy')">乘法（簡易）<span class="diff-sub">九因歌 0–10</span></div>
-    <div class="diff-btn d-hard" onclick="battle('hard')">乘法（困難）<span class="diff-sub">複合加減 · 神獸出沒</span></div>
-    <div class="diff-btn d-div" onclick="battle('div')">除法<span class="diff-sub">整除 · 餘數 · 因數</span></div>
-    <div class="diff-btn d-frac" onclick="battle('frac')">分數<span class="diff-sub">陰影 · 加減 · 比較</span></div>
+    <div class="diff-scroll">
+        <div class="diff-title">揀課題</div>
+        <div class="diff-btn d-easy" onclick="battle('easy')">乘法（簡易）<span class="diff-sub">九因歌 0–10</span></div>
+        <div class="diff-btn d-hard" onclick="battle('hard')">乘法（困難）<span class="diff-sub">複合加減 · 神獸出沒</span></div>
+        <div class="diff-btn d-div" onclick="battle('div')">除法<span class="diff-sub">整除 · 餘數 · 因數</span></div>
+        <div class="diff-btn d-frac" onclick="battle('frac')">分數<span class="diff-sub">陰影 · 加減 · 比較</span></div>
+    </div>
     <div class="menu-btn" onclick="home()">返回</div>
 </div>
 
@@ -160,12 +170,12 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 </div>
 
 <div id="s-dex" class="hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #000; margin-bottom:5px; padding-bottom:5px;">
+    <div class="dex-head">
         <div style="color:#fff;font-size:16px">精靈圖鑑</div>
         <div style="font-size:14px; background:#f1c40f; color:#000; padding:6px 8px; border:2px solid #000; cursor:pointer;" onclick="openAwards()">🏆 獎項</div>
     </div>
     <div class="d-grid" id="d-grid"></div>
-    <div class="menu-btn" style="width:100%" onclick="home()">返回</div>
+    <div class="menu-btn dex-foot" style="width:100%" onclick="home()">返回</div>
     
     <div id="dex-detail" class="hidden">
         <div id="dd-name"></div>
@@ -184,14 +194,14 @@ body { background:var(--bg); height:100vh; margin:0; padding:5px; display:flex; 
 <div id="s-award-9" class="hidden award-screen">
     <div class="award-title">成就獎狀</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2800.jpeg" class="award-img">
-    <div style="font-size:15px;color:#fff;margin-bottom:20px;line-height:1.5;">你捉齊晒 <span id="aw9-n">9</span> 隻普通精靈啦！</div>
+    <div class="award-copy" style="font-size:15px;color:#fff;margin-bottom:20px;line-height:1.5;">你捉齊晒 <span id="aw9-n">9</span> 隻普通精靈啦！</div>
     <div class="menu-btn" onclick="backToDex()">繼續</div>
 </div>
 
 <div id="s-award-12" class="hidden award-screen">
     <div class="award-title" style="color:gold;">終極數學大師</div>
     <img src="https://raw.githubusercontent.com/smilehkgba-pixel/peppa-math-game/main/IMG_2801.jpeg" class="award-img">
-    <div style="font-size:15px;color:#fff;margin-bottom:20px;line-height:1.5;">太勁喇！你捉齊晒 <span id="aw12-n">12</span> 隻精靈！</div>
+    <div class="award-copy" style="font-size:15px;color:#fff;margin-bottom:20px;line-height:1.5;">太勁喇！你捉齊晒 <span id="aw12-n">12</span> 隻精靈！</div>
     <div class="menu-btn" onclick="backToDex()">繼續</div>
 </div>
 
